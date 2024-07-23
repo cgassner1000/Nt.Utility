@@ -1,9 +1,11 @@
 name: Build and Release
 
 on:
+  workflow_dispatch:  # Ermöglicht das manuelle Auslösen
+
   push:
     tags:
-      - 'v*.*.*'  # Dies wird nur bei Tag-Commits ausgeführt (z.B. v1.0.0)
+      - 'v*.*.*'
 
 jobs:
   build:
