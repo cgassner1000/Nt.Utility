@@ -56,6 +56,9 @@ namespace Nt.Utility
             updateService = new UpdateService(GreenBrush, RedBrush, this);
             timer = new System.Threading.Timer(updateService.CheckUpdateServiceStatus, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
             this.Closed += MainWindow_Closed;
+            fiscal_startetTransactionNumber.TextChanged += Fiscal_startetTransactionNumber_TextChanged;
+            fiscal_cashboxID.TextChanged += FiskalQueue_TextChanged;
+
 
 
         }
@@ -464,7 +467,7 @@ namespace Nt.Utility
             string cashboxID = fiscal_cashboxID.Text;
             string terminalID = fiscal_terminalID.Text;
             string userID = fiscal_userID.Text;
-            string openTransaktions = fiscal_startetDransactionNumber.Text;
+            string openTransaktions = fiscal_startetTransactionNumber.Text;
 
             try
             {
@@ -506,6 +509,7 @@ namespace Nt.Utility
 
         private async void create_start_receipt_Click(object sender, RoutedEventArgs e)
         {
+            
             var result = MessageBox.Show("Inbetriebnahme wirklich durchführen?", "Frage für einen Freund", MessageBoxButton.OKCancel, MessageBoxImage.Question);
             if (result == MessageBoxResult.Cancel)
             {
@@ -513,6 +517,7 @@ namespace Nt.Utility
             }
             try
             {
+                CheckFiscalQueueInput();
                 var fiskaltrust = InitializeFiskaltrust();
 
                 string receiptID = await fiskaltrust.CreateStartReceiptAsync();
@@ -535,6 +540,7 @@ namespace Nt.Utility
 
             try
             {
+                CheckFiscalQueueInput();
                 var fiskaltrust = InitializeFiskaltrust();
 
                 string receiptID = await fiskaltrust.OutOfOperationAsync();
@@ -553,6 +559,7 @@ namespace Nt.Utility
 
             try
             {
+                CheckFiscalQueueInput();
                 var fiskaltrust = InitializeFiskaltrust();
 
                 string receiptID = await fiskaltrust.ZeroReceiptAsync();
@@ -569,6 +576,7 @@ namespace Nt.Utility
         {
             try
             {
+                CheckFiscalQueueInput();
                 var fiskaltrust = InitializeFiskaltrust();
 
                 string receiptID = await fiskaltrust.ZeroReceiptTSEInfoAsync();
@@ -590,6 +598,7 @@ namespace Nt.Utility
             }
             try
             {
+                CheckFiscalQueueInput();
                 var fiskaltrust = InitializeFiskaltrust();
 
                 string receiptID = await fiskaltrust.DailyClosingAsync();
@@ -607,6 +616,7 @@ namespace Nt.Utility
 
             try
             {
+                CheckFiscalQueueInput();
                 var fiskaltrust = InitializeFiskaltrust();
 
                 string receiptID = await fiskaltrust.ZeroReceiptCloseTransaktionsAsync();
@@ -628,6 +638,7 @@ namespace Nt.Utility
             }
             try
             {
+                CheckFiscalQueueInput();
                 var fiskaltrust = InitializeFiskaltrust();
 
                 string receiptID = await fiskaltrust.InitiateSCUAsync();
@@ -649,6 +660,7 @@ namespace Nt.Utility
             }
             try
             {
+                CheckFiscalQueueInput();
                 var fiskaltrust = InitializeFiskaltrust();
 
                 string receiptID = await fiskaltrust.InitiateSCUDeaktivateAsync();
@@ -670,6 +682,7 @@ namespace Nt.Utility
             }
             try
             {
+                CheckFiscalQueueInput();
                 var fiskaltrust = InitializeFiskaltrust();
 
                 string receiptID = await fiskaltrust.FinishSCUAsync();
@@ -694,9 +707,17 @@ namespace Nt.Utility
 
         private async void fail_multi_transaction_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(fiscal_startetTransactionNumber.Text) || fiscal_startetTransactionNumber.Text == "1, 2, 3, 4, etc.")
+            {
+                MessageBox.Show("Bitte gültige (offene) Transaktionsnummern eingeben.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                fiscal_startetTransactionNumber.Focus();
+                fiscal_startetTransactionNumber.Background = new SolidColorBrush(Colors.Yellow);
+                return;
+            }
 
             try
             {
+                CheckFiscalQueueInput();
                 var fiskaltrust = InitializeFiskaltrust();
 
                 string receiptID = await fiskaltrust.FailTransaktionsMultiReceiptAsync();
@@ -716,6 +737,7 @@ namespace Nt.Utility
 
             try
             {
+                CheckFiscalQueueInput();
                 var fiskaltrust = InitializeFiskaltrust();
                 var journalData = await fiskaltrust.ExportJournalAsync(fromDate, toDate);
 
@@ -726,5 +748,40 @@ namespace Nt.Utility
                 MessageBox.Show($"Fehler: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
          }
+
+        private void Fiscal_startetTransactionNumber_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(fiscal_startetTransactionNumber.Text) || fiscal_startetTransactionNumber.Text != "1, 2, 3, etc.")
+            {
+                fiscal_startetTransactionNumber.Background = new SolidColorBrush(Colors.White);
+            }
+        }
+
+        private void FiskalQueue_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(fiscal_cashboxID.Text) || fiscal_cashboxID.Text != "00000000-0000-0000-0000-000000000000")
+            {
+                fiscal_cashboxID.Background = new SolidColorBrush(Colors.White);
+            }
+        }
+
+        private void CheckFiscalQueueInput()
+        {
+            if (string.IsNullOrWhiteSpace(fiscal_cashboxID.Text) || fiscal_cashboxID.Text == "00000000-0000-0000-0000-000000000000")
+            {
+                fiscal_cashboxID.Focus();
+                fiscal_cashboxID.Background = new SolidColorBrush(Colors.Yellow);
+                throw new InvalidFiscalQueueInputException("Bitte gültige CashboxID eingeben.");
+                
+            }
+
+            fiscal_cashboxID.Background = new SolidColorBrush(Colors.White);
+        }
+        public class InvalidFiscalQueueInputException : Exception
+        {
+            public InvalidFiscalQueueInputException(string message) : base(message)
+            {
+            }
+        }
     }
 }

@@ -66,7 +66,7 @@
                     <TextBox x:Name="fiscal_cashboxID" HorizontalAlignment="Left" Margin="94,110,0,0" TextWrapping="Wrap" Text="00000000-0000-0000-0000-000000000000" VerticalAlignment="Top" Width="245" Height="20" GotFocus="TextBox_GotFocus"/>
                     <TextBox x:Name="fiscal_terminalID" HorizontalAlignment="Left" Margin="94,135,0,0" TextWrapping="Wrap" Text="001" VerticalAlignment="Top" Width="40" Height="20" GotFocus="TextBox_GotFocus"/>
                     <TextBox x:Name="fiscal_userID" HorizontalAlignment="Left" Margin="95,160,0,0" TextWrapping="Wrap" Text="Novacom" VerticalAlignment="Top" Width="60" Height="20" GotFocus="TextBox_GotFocus"/>
-                    <TextBox x:Name="fiscal_startetDransactionNumber" HorizontalAlignment="Left" Margin="94,190,0,0" TextWrapping="Wrap" Text="1, 2, 3, 4, etc." VerticalAlignment="Top" Width="245" Height="20" GotFocus="TextBox_GotFocus" />
+                    <TextBox x:Name="fiscal_startetTransactionNumber" HorizontalAlignment="Left" Margin="94,190,0,0" TextWrapping="Wrap" Text="1, 2, 3, 4, etc." VerticalAlignment="Top" Width="245" Height="20" GotFocus="TextBox_GotFocus" />
                     <TextBox x:Name="export_from_date" HorizontalAlignment="Left" Margin="94,240,0,0" TextWrapping="Wrap" Text="01.01.2020" VerticalAlignment="Top" Width="70" Height="20" GotFocus="TextBox_GotFocus"/>
                     <TextBox x:Name="export_to_date" HorizontalAlignment="Left" Margin="94,265,0,0" TextWrapping="Wrap" Text="31.12.2023" VerticalAlignment="Top" Width="70" Height="20" GotFocus="TextBox_GotFocus"/>
                     <Button x:Name="create_start_receipt" Content="Inbetriebnahme" Click="create_start_receipt_Click" Margin="420,10,10,0" Height="35" VerticalAlignment="Top" FontSize="11" />

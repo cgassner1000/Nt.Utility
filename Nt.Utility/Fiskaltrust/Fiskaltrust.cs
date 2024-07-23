@@ -209,7 +209,7 @@ namespace Nt.Utility.Fiskaltrust
                 CbTerminalID = _terminalID,
                 CbReceiptReference = "daily-closing-" + _timestamp,
                 CbReceiptMoment = ToBclDateTime(System.DateTime.UtcNow),
-                FtReceiptCase = 4919338172267102215,
+                FtReceiptCase = 4919338172803973127,
             };
             var response = await _client.SignAsync(request);
 
