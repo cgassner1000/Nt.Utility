@@ -35,7 +35,7 @@
 
   <ItemGroup>
     <Reference Include="InterSystems.Data.IRISClient">
-      <HintPath>..\..\..\..\Downloads\InterSystems.Data.IRISClient.dll</HintPath>
+      <HintPath>lib\InterSystems.Data.IRISClient.dll</HintPath>
     </Reference>
   </ItemGroup>
 
