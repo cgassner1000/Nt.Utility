@@ -2,14 +2,9 @@ name: Build and Release
 
 on:
   workflow_dispatch:  # Ermöglicht das manuelle Auslösen
-
   push:
     tags:
       - 'v*.*.*'
-
-permissions:
-  contents: write  # Erforderlich für Releases
-  deployments: write
 
 jobs:
   build:
@@ -36,8 +31,8 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         with:
-          tag_name: ${{ github.ref_name }}  # Verwendung von github.ref_name ohne refs/
-          release_name: Release ${{ github.ref_name }}
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
         env:
@@ -47,6 +42,6 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./bin/Release/net6.0-windows0/win-x64/publish/Nt.Utility.exe
+          asset_path: ./bin/Release/net6.0-windows/win-x64/publish/Nt.Utility.exe
           asset_name: Nt.Utility.exe
           asset_content_type: application/octet-stream
