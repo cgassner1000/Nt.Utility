@@ -7,6 +7,10 @@ on:
     tags:
       - 'v*.*.*'
 
+permissions:
+  contents: write  # Erforderlich für Releases
+  deployments: write
+
 jobs:
   build:
     runs-on: windows-latest
