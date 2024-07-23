@@ -77,10 +77,10 @@
                         <TextBlock Text="Nullbeleg + offene Transaktionen schließen" TextWrapping="Wrap" TextAlignment="Center"/>
                     </Button>
                     <Button x:Name="daily_closing" Content="Tagesabschluss" Click="daily_closing_Click" Margin="420,220,10,0" Height="35" VerticalAlignment="Top" FontSize="11" />
-                    <Button x:Name="initiate_SCU" Click="initiate_SCU_Click" Margin="0,323,179,0" Height="35" VerticalAlignment="Top" FontSize="11" HorizontalAlignment="Right" Width="164">
+                    <Button x:Name="initiate_SCU" Click="initiate_SCU_Click" Margin="0,321,196,0" Height="35" VerticalAlignment="Top" FontSize="11" HorizontalAlignment="Right" Width="164">
                         <TextBlock Text="Initial-Switch                         (SCU-tausch / bleibt aktiv)" TextWrapping="Wrap" TextAlignment="Center"/>
                     </Button>
-                    <Button x:Name="initiate_SCU_deaktivate" Click="initiate_SCU_deaktivate_Click" Margin="0,363,179,0" Height="35" VerticalAlignment="Top" FontSize="11" HorizontalAlignment="Right" Width="164">
+                    <Button x:Name="initiate_SCU_deaktivate" Click="initiate_SCU_deaktivate_Click" Margin="0,361,196,0" Height="35" VerticalAlignment="Top" FontSize="11" HorizontalAlignment="Right" Width="164">
                         <TextBlock Text="Initial-Switch                         (SCU-tausch / deaktivieren)" TextWrapping="Wrap" TextAlignment="Center"/>
                     </Button>
                     <Button x:Name="finish_SCU" Click="finish_SCU_Click" Margin="420,341,10,0" Height="35" VerticalAlignment="Top" FontSize="11" HorizontalAlignment="Right" Width="164">
