@@ -38,18 +38,20 @@ jobs:
           echo "Finding the latest tag"
           latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
           echo "Latest tag: $latest_tag"
-          if [ -z "$latest_tag" ]; then
+          if (-not $latest_tag) {
             echo "::set-output name=tag::v1.0.0"
-          else
-            tag_prefix="v"
-            version=$(echo $latest_tag | sed 's/^v//')
-            IFS='.' read -r -a version_parts <<< "$version"
-            major=${version_parts[0]}
-            minor=${version_parts[1]}
-            patch=${version_parts[2]}
-            new_patch=$((patch + 1))
-            new_tag="$tag_prefix$major.$minor.$new_patch"
+          }
+          else {
+            $tag_prefix = "v"
+            $version = $latest_tag -replace '^v'
+            $version_parts = $version -split '\.'
+            $major = [int]$version_parts[0]
+            $minor = [int]$version_parts[1]
+            $patch = [int]$version_parts[2]
+            $new_patch = $patch + 1
+            $new_tag = "$tag_prefix$major.$minor.$new_patch"
             echo "::set-output name=tag::$new_tag"
+          }
 
       - name: Create GitHub Release
         id: create_release
