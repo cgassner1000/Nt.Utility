@@ -39,7 +39,7 @@ jobs:
           Write-Host "Finding the latest tag"
           $latest_tag = git describe --tags $(git rev-list --tags --max-count=1)
           Write-Host "Latest tag: $latest_tag"
-          if (-not $latest_tag) {
+          if ([string]::IsNullOrEmpty($latest_tag)) {
           $latest_tag = "v1.0.0"
           }
           $tag_prefix = "v"
