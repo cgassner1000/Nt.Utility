@@ -38,7 +38,6 @@ jobs:
           } else {
           echo "::set-output name=tag::default"
           }
-          fi
 
       - name: Create GitHub Release
         id: create_release
