@@ -52,13 +52,13 @@ jobs:
           # Increment the patch version and check if it exists
           $new_patch = $patch + 1
           $new_tag = "$tag_prefix$major.$minor.$new_patch"
-
+  
           # Check if the new tag already exists
           while (git tag -l $new_tag) {
             $new_patch++
             $new_tag = "$tag_prefix$major.$minor.$new_patch"
           }
-
+          Write-Host "Neuer Tag: $new_tag"
           echo "tag=$new_tag" >> $GITHUB_ENV
           
       - name: Create GitHub Release
