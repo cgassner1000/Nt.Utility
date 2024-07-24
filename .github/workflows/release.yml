@@ -44,7 +44,7 @@ jobs:
         uses: actions/create-release@v1
         with:
           tag_name: ${{ steps.get_tag.outputs.tag }}
-          release_name: Release ${{ steps.get_tag.outputs.tag }}
+          release_name: ${{ steps.get_tag.outputs.tag }}
           draft: false
           prerelease: false
         env:
@@ -54,6 +54,6 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./Nt.Utility/bin/Release/net6.0-windows/win-x64/publish/Nt.Utility.exe
+          asset_path: ./Nt.Utility/bin/Release/net6.0-windows/win-x64/publish/win-x64/Nt.Utility.exe
           asset_name: Nt.Utility.exe
           asset_content_type: application/octet-stream
