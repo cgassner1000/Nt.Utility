@@ -59,7 +59,7 @@ jobs:
             $new_tag = "$tag_prefix$major.$minor.$new_patch"
           }
           Write-Host "Neuer Tag: $new_tag"
-          echo "tag=$new_tag" >> $GITHUB_ENV
+          echo "tag=$new_tag" >> $env:GITHUB_ENV
           
       - name: Create GitHub Release
         id: create_release
