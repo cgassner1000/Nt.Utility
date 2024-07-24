@@ -38,7 +38,7 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         with:
-     #     tag_name: ${{ vars.APP_NAME }}
+          tag_name: ${{ vars.APP_NAME }}
           release_name: ${{ vars.APP_NAME }}
           draft: false
           prerelease: false
