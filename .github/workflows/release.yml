@@ -33,10 +33,11 @@ jobs:
       - name: Get current tag
         id: get_tag
         run: |
-          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
-            echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
-          else
-            echo "::set-output name=tag::release"
+          if ("${{ github.ref }}" -like "refs/tags/*") {
+          echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
+          } else {
+          echo "::set-output name=tag::default"
+          }
           fi
 
       - name: Create GitHub Release
