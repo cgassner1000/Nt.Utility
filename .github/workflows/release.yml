@@ -40,7 +40,7 @@ jobs:
           $latest_tag = git describe --tags $(git rev-list --tags --max-count=1)
           Write-Host "Latest tag: $latest_tag"
           if (-not $latest_tag) {
-            echo "tag=v1.0.0" >> $GITHUB_ENV
+            echo "::set-output name=tag::v1.0.0"
           }
           else {
             $tag_prefix = "v"
@@ -51,15 +51,15 @@ jobs:
             $patch = [int]$version_parts[2]
             $new_patch = $patch + 1
             $new_tag = "$tag_prefix$major.$minor.$new_patch"
-            echo "tag=$new_tag" >> $GITHUB_ENV
+            echo "::set-output name=tag::$new_tag"
           }
 
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         with:
-          tag_name: ${{ env.tag }}
-          release_name: ${{ env.tag }}
+          tag_name: ${{ steps.get_tag.outputs.tag }}
+          release_name: ${{ steps.get_tag.outputs.tag }}
           draft: false
           prerelease: false
         env:
