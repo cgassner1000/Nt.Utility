@@ -1,7 +1,7 @@
 name: Build and Release
 
 on:
-  workflow_dispatch:  # Ermöglicht das manuelle Auslösen
+  workflow_dispatch: 
   push:
     tags:
       - 'v*.*.*'
