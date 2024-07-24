@@ -79,3 +79,5 @@ jobs:
           asset_path: ./Nt.Utility/bin/Release/net6.0-windows/win-x64/publish/Nt.Utility.exe
           asset_name: Nt.Utility.exe
           asset_content_type: application/octet-stream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
