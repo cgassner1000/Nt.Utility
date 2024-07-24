@@ -33,6 +33,8 @@ jobs:
       - name: Get current tag
         id: get_tag
         run: echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
+        env:
+          GITHUB_REF: ${{ github.ref || 'release}}
 
       - name: Create GitHub Release
         id: create_release
