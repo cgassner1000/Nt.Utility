@@ -11,9 +11,9 @@
 	<SelfContained>true</SelfContained>
 	<PublishReadyToRun>true</PublishReadyToRun>
 	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-	<Version>1.0.0</Version>
-	<FileVersion>1.0.0</FileVersion>
-	<InformationalVersion>1.0.0</InformationalVersion>
+	<Version>1.0.2</Version>
+	<FileVersion>1.0.2</FileVersion>
+	<InformationalVersion>1.0.2</InformationalVersion>
   </PropertyGroup>
 
   <ItemGroup>
