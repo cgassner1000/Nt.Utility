@@ -30,16 +30,16 @@ jobs:
       - name: Publish
         run: dotnet publish -c Release -r win-x64 --self-contained
 
-      - name: Get current tag
-        id: get_tag
-        run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+      #- name: Get current tag
+      #  id: get_tag
+      #  run: echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
 
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         with:
-          tag_name: ${{ env.tag }}
-          release_name: ${{ env.tag }}
+          tag_name: ${{ vars.APP_NAME }}
+          release_name: ${{ vars.APP_NAME }}
           draft: false
           prerelease: false
         env:
@@ -49,6 +49,6 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./bin/Release/net6.0-windows/win-x64/publish/Nt.Utility.exe
+          asset_path: ./Nt.Utility/bin/Release/net6.0-windows/win-x64/publish/Nt.Utility.exe
           asset_name: Nt.Utility.exe
           asset_content_type: application/octet-stream
