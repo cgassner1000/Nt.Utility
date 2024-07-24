@@ -1,5 +1,5 @@
 ﻿using fiskaltrust.ifPOS.v1;
-using fiskaltrust.ifPOS.v0;
+// fiskaltrust.ifPOS.v0;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using ProtoBuf.Bcl;

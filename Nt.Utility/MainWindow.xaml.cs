@@ -38,8 +38,8 @@ namespace Nt.Utility
         private Table table;
         private Database database;
         private UpdateService updateService;
-        private string server;
-        private string port;
+        //private string server;
+        //private string port;
         //private IRISConnection conn;
         //private IRIS iris;
 
