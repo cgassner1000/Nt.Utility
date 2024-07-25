@@ -94,7 +94,7 @@
             </TabItem>
             <TabItem Header="Nt.Fiscal">
                 <Grid Background="#FFE5E5E5">
-                    <TextBox x:Name="NtFiscal_EventLog" Margin="10,123,10,10" TextWrapping="Wrap" Text=""/>
+                    <TextBox x:Name="NtFiscal_EventLog" Margin="10,123,10,10" TextWrapping="Wrap" Text="" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
                     <Button x:Name="NtFiscalUpdate" Content="Update Nt.Fiscal" Margin="420,10,10,0" VerticalAlignment="Top" Height="35" Click="NtFiscalUpdate_Click"/>
                 </Grid>
             </TabItem>
@@ -106,7 +106,7 @@
             </TabItem>
             <TabItem Header="EventLog" IsEnabled="True">
                 <Grid Background="#FFE5E5E5">
-                    <TextBlock x:Name="EventLog_TextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="EventLog_TextBlock" VerticalAlignment="Center" Height="406" Width="574"/>
+                    <TextBox x:Name="EventLog" Margin="10,10,10,10" TextWrapping="Wrap" Text="" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
 
                 </Grid>
             </TabItem>

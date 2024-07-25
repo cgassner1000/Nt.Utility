@@ -15,6 +15,7 @@ namespace Nt.Utility
     internal class Table
     {
         private Database database;
+        private readonly MainWindow mainWindow;
 
         public Table(Database db)
         {
@@ -91,6 +92,7 @@ namespace Nt.Utility
                 database.iris.TCommit();
 
                 MessageBox.Show($"Tisch {TI} erfolgreich gelöscht");
+                mainWindow.LogEvent($"NOVACOM: {TI} gelöscht");
             }
             catch (Exception ex)
             {

@@ -29,6 +29,7 @@ namespace Nt.Utility.Fiskaltrust
         private readonly string _userID;
         private readonly string _openTransaktions;
         private readonly string _NCPosSystemID;
+        private readonly MainWindow mainWindow;
 
         private POS.POSClient _client;
         private string _timestamp;
@@ -90,7 +91,6 @@ namespace Nt.Utility.Fiskaltrust
             var response = await _client.EchoAsync(request);
 
             Console.WriteLine("Response: " + response.Message);
-
             return response.Message;
         }
 
@@ -180,6 +180,7 @@ namespace Nt.Utility.Fiskaltrust
 
         public async Task<string> OutOfOperationAsync()
         {
+            
             FiskalConnect();
 
             var request = new fiskaltrust.ifPOS.v1.ReceiptRequest

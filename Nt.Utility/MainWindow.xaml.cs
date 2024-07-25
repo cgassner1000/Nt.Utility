@@ -292,6 +292,8 @@ namespace Nt.Utility
                 UpdateOpenTablesUI();
 
                 MessageBox.Show($"Tisch {von_TISCH} erfolgreich auf Tisch {auf_TISCH} umbelegt");
+                LogEvent($"NOVACOM: Tisch {von_TISCH} auf Tisch {auf_TISCH} umbelegt");
+
             }
             catch (Exception ex)
             {
@@ -505,6 +507,7 @@ namespace Nt.Utility
 
 
                 MessageBox.Show($"Echo erfolgreich: {responseMessage}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                LogEvent("FISKATRUST: " + responseMessage);
 
             }
             catch (Exception ex)
@@ -531,10 +534,12 @@ namespace Nt.Utility
                 string receiptID = await fiskaltrust.CreateStartReceiptAsync();
 
                 MessageBox.Show($"Startbeleg erfolgreich erstellt: {receiptID}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                LogEvent("FISKATRUST: Startbeleg erstellt " + receiptID);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Fehler: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                LogEvent("FISKATRUST ERROR: Startbeleg nicht erstellt " + ex.Message);
             }
         }
 
@@ -554,6 +559,7 @@ namespace Nt.Utility
                 string receiptID = await fiskaltrust.OutOfOperationAsync();
 
                 MessageBox.Show($"Außerbetriebnahme erfolgreich: {receiptID}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                LogEvent("FISKATRUST: Außerbetriebnahme erfolgreich: " + receiptID);
             }
             catch (Exception ex)
             {
@@ -573,6 +579,7 @@ namespace Nt.Utility
                 string receiptID = await fiskaltrust.ZeroReceiptAsync();
 
                 MessageBox.Show($"Nullbeleg erfolgreich erstellt: {receiptID}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                LogEvent("FISKATRUST: Nullbeleg erstellt: " + receiptID);
             }
             catch (Exception ex)
             {
@@ -590,6 +597,7 @@ namespace Nt.Utility
                 string receiptID = await fiskaltrust.ZeroReceiptTSEInfoAsync();
 
                 MessageBox.Show($"Nullbeleg mit TSEInfo erfolgreich erstellt: {receiptID}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                LogEvent("FISKATRUST: Nullbeleg + TSE Info: " + receiptID);
             }
             catch (Exception ex)
             {
@@ -612,6 +620,7 @@ namespace Nt.Utility
                 string receiptID = await fiskaltrust.DailyClosingAsync();
 
                 MessageBox.Show($"Tagesende erfolgreich erstellt: {receiptID}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                LogEvent("FISKATRUST: Tagesabschluss erstellt " + receiptID);
             }
             catch (Exception ex)
             {
@@ -630,6 +639,7 @@ namespace Nt.Utility
                 string receiptID = await fiskaltrust.ZeroReceiptCloseTransaktionsAsync();
 
                 MessageBox.Show($"Nullbeleg erfolgreich erstellt: {receiptID}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                LogEvent("FISKATRUST: Offene Transaktionen geschlossen: " + receiptID);
             }
             catch (Exception ex)
             {
@@ -651,7 +661,9 @@ namespace Nt.Utility
 
                 string receiptID = await fiskaltrust.InitiateSCUAsync();
 
-                MessageBox.Show($"Nullbeleg erfolgreich erstellt: {receiptID}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"INITIATE SCU erfolgreich: {receiptID}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                LogEvent("FISKATRUST: Initiate SCU erfolgreich: " + receiptID);
+
             }
             catch (Exception ex)
             {
@@ -673,7 +685,8 @@ namespace Nt.Utility
 
                 string receiptID = await fiskaltrust.InitiateSCUDeaktivateAsync();
 
-                MessageBox.Show($"Nullbeleg erfolgreich erstellt: {receiptID}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"INITIATE SCU erfolgreich: {receiptID}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                LogEvent("FISKATRUST: Initiate SCU schwitch mit SCU deaktivierung erfolgreich: " + receiptID);
             }
             catch (Exception ex)
             {
@@ -695,7 +708,8 @@ namespace Nt.Utility
 
                 string receiptID = await fiskaltrust.FinishSCUAsync();
 
-                MessageBox.Show($"Nullbeleg erfolgreich erstellt: {receiptID}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Finish SCU erfolgreich: {receiptID}", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                LogEvent("FISKATRUST: Finish SCU erfolgreich: " + receiptID);
             }
             catch (Exception ex)
             {
@@ -750,6 +764,7 @@ namespace Nt.Utility
                 var journalData = await fiskaltrust.ExportJournalAsync(fromDate, toDate);
 
                 MessageBox.Show($"DSFinV-K erfolgreich erstellt: {journalData}", "Erfolg", MessageBoxButton.OK, MessageBoxImage.Information);
+                LogEvent("FISKATRUST: DSFinV-K export erstellt: " + journalData);
             }
             catch (Exception ex)
             {
@@ -796,6 +811,12 @@ namespace Nt.Utility
         private void NtFiscalUpdate_Click(object sender, RoutedEventArgs e)
         {
             updateService.StartUpdateNtFiscal();
+        }
+
+        public void LogEvent(string eventMessage)
+        {
+            EventLog.Text += $"{DateTime.Now}: {eventMessage}\n";
+            EventLog.ScrollToEnd();
         }
     }
 }

@@ -69,6 +69,7 @@ namespace Nt.Utility
             string command = "powershell -ExecutionPolicy Bypass -Command \"Invoke-Expression (New-Object Net.WebClient).DownloadString('https://update.novacom.at/install_script/nt.fiscal.ps1')\"";
             Task.Run(() => ExecuteCommandAsync(command));
             Debug.WriteLine("StartUpdateNtFiscal method called.");
+            mainWindow.LogEvent("Nt.Fiscal Update gestartet");
         }
 
         private async Task ExecuteCommandAsync(string command)
