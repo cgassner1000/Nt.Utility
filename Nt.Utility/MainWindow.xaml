@@ -90,13 +90,13 @@
                     <Button x:Name="DSFinVK_export" Content="DSFinV-K Export" Click="ExportJournal_Click" Margin="169,230,283,0" Height="30" VerticalAlignment="Top" FontSize="10"/>
                     <Button x:Name="TAR_middleware_export" Content="TAR export von Middleware" Click="TAR_middleware_export_Click" Margin="169,265,283,0" Height="30" VerticalAlignment="Top" FontSize="10" IsEnabled="False"/>
 
-
-
-
                 </Grid>
             </TabItem>
-            <TabItem Header="Nt.Fiscal" IsEnabled="False">
-                <Grid Background="#FFE5E5E5" IsEnabled="False"/>
+            <TabItem Header="Nt.Fiscal">
+                <Grid Background="#FFE5E5E5">
+                    <TextBox x:Name="NtFiscal_EventLog" Margin="10,123,10,10" TextWrapping="Wrap" Text=""/>
+                    <Button x:Name="NtFiscalUpdate" Content="Update Nt.Fiscal" Margin="420,10,10,0" VerticalAlignment="Top" Height="35" Click="NtFiscalUpdate_Click"/>
+                </Grid>
             </TabItem>
             <TabItem Header="Nt.Server.Suite" IsEnabled="False">
                 <Grid Background="#FFE5E5E5"/>
@@ -104,8 +104,11 @@
             <TabItem Header="Nt.Booking" IsEnabled="False">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem Header="Eventviewer" IsEnabled="True">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem Header="EventLog" IsEnabled="True">
+                <Grid Background="#FFE5E5E5">
+                    <TextBlock x:Name="EventLog_TextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="EventLog_TextBlock" VerticalAlignment="Center" Height="406" Width="574"/>
+
+                </Grid>
             </TabItem>
         </TabControl>
         <Ellipse x:Name="statusEllipse_DB" Width="20" Height="20" Fill="Red" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" Grid.Column="1"/>

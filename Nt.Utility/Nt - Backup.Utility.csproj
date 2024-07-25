@@ -9,7 +9,9 @@
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>true</SelfContained>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <Version>1.0.18</Version>
+    <Version>1.0.14</Version>
+    <FileVersion>1.0.0</FileVersion>
+    <InformationalVersion>1.0.0</InformationalVersion>
   </PropertyGroup>
   <Target Name="UpdateVersion" BeforeTargets="GenerateAssemblyInfo">
     <Exec Command="powershell -ExecutionPolicy Bypass -File version.ps1" />

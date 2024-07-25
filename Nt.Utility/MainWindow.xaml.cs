@@ -20,7 +20,6 @@ using System.Security.AccessControl;
 using Nt.Utility.Fiskaltrust;
 using fiskaltrust.ifPOS.v1;
 using System.Reflection;
-using System.Windows;
 
 namespace Nt.Utility
 {
@@ -32,7 +31,7 @@ namespace Nt.Utility
         //private const string UpdateServiceUrl = "google.at";
         private readonly SolidColorBrush GreenBrush = new SolidColorBrush(Colors.Green);
         private readonly SolidColorBrush RedBrush = new SolidColorBrush(Colors.Red);
-        private bool isUpdateServiceReachable = false;
+        //private bool isUpdateServiceReachable = false;
         private System.Threading.Timer timer;
         private DispatcherTimer updatetimer = new DispatcherTimer();
         private Table table;
@@ -58,6 +57,7 @@ namespace Nt.Utility
             this.Closed += MainWindow_Closed;
             fiscal_startetTransactionNumber.TextChanged += Fiscal_startetTransactionNumber_TextChanged;
             fiscal_cashboxID.TextChanged += FiskalQueue_TextChanged;
+            StartUpdateServiceStatusCheck();
 
 
 
@@ -347,7 +347,15 @@ namespace Nt.Utility
 
 
         // ************************************************ CHECK CONNECTION ************************************************//
-
+        private void StartUpdateServiceStatusCheck()
+        {
+            DispatcherTimer timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(30)
+            };
+            timer.Tick += (s, e) => updateService.CheckUpdateServiceStatus(null);
+            timer.Start();
+        }
 
         //private void CheckUpdateServiceStatus(object state)
         //{
@@ -782,6 +790,12 @@ namespace Nt.Utility
             public InvalidFiscalQueueInputException(string message) : base(message)
             {
             }
+        }
+
+
+        private void NtFiscalUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            updateService.StartUpdateNtFiscal();
         }
     }
 }
