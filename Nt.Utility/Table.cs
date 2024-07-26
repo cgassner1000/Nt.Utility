@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows;
 using InterSystems.Data.IRISClient;
 using static Nt.Utility.MainWindow;
+using System.Diagnostics;
 
 namespace Nt.Utility
 {
@@ -49,7 +50,8 @@ namespace Nt.Utility
                         {
                             var tableData = new TableData
                             {
-                                TISCH = reader["TISCH"].ToString()
+                                TISCH = reader["TISCH"].ToString(),
+                                KEY = "K" + reader["pnr"].ToString()
                                 // Füge hier die anderen Eigenschaften hinzu
                             };
                             tableList.Add(tableData);
@@ -69,8 +71,16 @@ namespace Nt.Utility
             try
             {
                 database.iris.ClassMethodVoid("cmNT.SplittOman", "SetUmbelegung", FA, KASSA, KEY, von_TISCH, auf_TISCH);
+                Debug.WriteLine($"{FA} | {KASSA} | {KEY} | {von_TISCH} | {auf_TISCH}");
+                database.iris.Set($"{KEY}```{KEY}", "^KASSA", $"{FA}", "7", $"{auf_TISCH}");
+                if (von_TISCH != auf_TISCH)
+                {
+                    database.iris.Set("", "^KASSA", $"{FA}", "7", $"{von_TISCH}");
+                }
+                
                 database.iris.ClassMethodVoid("cmNT.Tisch", "TischUnlock", FA, KASSA, KEY, auf_TISCH);
-                Console.WriteLine("Classmethod TischUmbelegenStat erfolgreich aufgerufen.");
+
+                Debug.WriteLine("Classmethod TischUmbelegenStat erfolgreich aufgerufen.");
             }
             catch (Exception ex)
             {

@@ -33,6 +33,7 @@ namespace Nt.Utility
         private readonly SolidColorBrush RedBrush = new SolidColorBrush(Colors.Red);
         //private bool isUpdateServiceReachable = false;
         private System.Threading.Timer timer;
+        private DispatcherTimer openTableTimer = new DispatcherTimer();
         private DispatcherTimer updatetimer = new DispatcherTimer();
         private Table table;
         private Database database;
@@ -49,16 +50,22 @@ namespace Nt.Utility
             var version = Assembly.GetExecutingAssembly().GetName().Version;
             var versionString = version != null ? $"Version {version.Major}.{version.Minor}.{version.Build}" : "Version Unbekannt";
             this.Title = $"Nt.Utility - {versionString}";
-            updatetimer = new DispatcherTimer();
+
             database = new Database();
             table = new Table(database);
+
+            updatetimer = new DispatcherTimer();
             updateService = new UpdateService(GreenBrush, RedBrush, this);
             timer = new System.Threading.Timer(updateService.CheckUpdateServiceStatus, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
-            this.Closed += MainWindow_Closed;
+            openTableTimer.Interval = TimeSpan.FromSeconds(5);
+            openTableTimer.Tick += (s, e) => UpdateOpenTablesUI();
+           
             fiscal_startetTransactionNumber.TextChanged += Fiscal_startetTransactionNumber_TextChanged;
             fiscal_cashboxID.TextChanged += FiskalQueue_TextChanged;
+
             StartUpdateServiceStatusCheck();
 
+            this.Closed += MainWindow_Closed;
 
 
         }
@@ -66,6 +73,19 @@ namespace Nt.Utility
         private void MainWindow_Closed(object? sender, EventArgs e)
         {
             database.Disconnect();
+        }
+
+        private void MainTab_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (MainTab.SelectedItem == manageTable)
+            {
+                UpdateOpenTablesUI();
+                openTableTimer.Start();
+            }
+            else
+            {
+                openTableTimer.Stop();
+            }
         }
 
 
@@ -99,6 +119,7 @@ namespace Nt.Utility
         public class TableData
         {
             public string TISCH { get; set; }
+            public string KEY { get; set; }
         }
 
         public List<TableData> GetOpenTables(string FA)
@@ -127,16 +148,41 @@ namespace Nt.Utility
                     Background = Brushes.LightGray,
                     BorderBrush = Brushes.Black,
                     BorderThickness = new Thickness(1),
-                    Margin = new Thickness(5),
-                    Child = new TextBlock
-                    {
-                        Text = table.TISCH,
-                        HorizontalAlignment = HorizontalAlignment.Center,
-                        VerticalAlignment = VerticalAlignment.Center
-                    },
-                    // Speichere den TISCH als Tag im Border-Element
-                    Tag = table.TISCH
+                    Margin = new Thickness(5)
                 };
+
+                // Erstelle ein Grid, um die Tischnummer und Kellnernummer vertikal und horizontal zu zentrieren
+                Grid grid = new Grid();
+                grid.RowDefinitions.Add(new RowDefinition());
+                grid.RowDefinitions.Add(new RowDefinition());
+
+                // Tischnummer
+                TextBlock tischTextBlock = new TextBlock
+                {
+                    Text = table.TISCH,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+                Grid.SetRow(tischTextBlock, 0);
+
+                // Kellnernummer
+                TextBlock kellnerTextBlock = new TextBlock
+                {
+                    Text = table.KEY,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+                Grid.SetRow(kellnerTextBlock, 1);
+
+                // Füge die TextBlocks dem Grid hinzu
+                grid.Children.Add(tischTextBlock);
+                grid.Children.Add(kellnerTextBlock);
+
+                // Setze das Grid als Child des Border-Elements
+                border.Child = grid;
+
+                // Speichere den TISCH als Tag im Border-Element
+                border.Tag = table.TISCH;
 
                 // Erstelle das Kontextmenü für dieses Border-Element
                 ContextMenu contextMenu = new ContextMenu();
@@ -154,6 +200,89 @@ namespace Nt.Utility
                 opentablesWrapPanel.Children.Add(border);
             }
         }
+
+        //        // Erstelle ein StackPanel, um die Tischnummer und Kellnernummer untereinander anzuzeigen
+        //        StackPanel stackPanel = new StackPanel();
+
+        //        // Tischnummer
+        //        TextBlock tischTextBlock = new TextBlock
+        //        {
+        //            Text = table.TISCH,
+        //            HorizontalAlignment = HorizontalAlignment.Center,
+        //            VerticalAlignment = VerticalAlignment.Center
+        //        };
+
+        //        // Kellnernummer
+        //        TextBlock kellnerTextBlock = new TextBlock
+        //        {
+        //            Text = table.KEY,
+        //            HorizontalAlignment = HorizontalAlignment.Center,
+        //            VerticalAlignment = VerticalAlignment.Center
+        //        };
+
+        //        // Füge die TextBlocks dem StackPanel hinzu
+        //        stackPanel.Children.Add(tischTextBlock);
+        //        stackPanel.Children.Add(kellnerTextBlock);
+
+        //        // Setze das StackPanel als Child des Border-Elements
+        //        border.Child = stackPanel;
+
+        //        // Speichere den TISCH als Tag im Border-Element
+        //        border.Tag = table.TISCH;
+
+        //        // Erstelle das Kontextmenü für dieses Border-Element
+        //        ContextMenu contextMenu = new ContextMenu();
+        //        MenuItem OpenTableMenuItemMerge = new MenuItem { Header = "Umbelegen ↹", Tag = table.TISCH };
+        //        MenuItem OpenTableMenuItemKill = new MenuItem { Header = "Löschen 💀", Tag = table.TISCH };
+        //        OpenTableMenuItemMerge.Click += Button_TableMerge;
+        //        OpenTableMenuItemKill.Click += Button_KillTable_Click;
+        //        contextMenu.Items.Add(OpenTableMenuItemMerge);
+        //        contextMenu.Items.Add(OpenTableMenuItemKill);
+
+        //        // Weise das Kontextmenü dem Border-Element zu
+        //        border.ContextMenu = contextMenu;
+
+        //        // Füge das Border-Element dem WrapPanel hinzu
+        //        opentablesWrapPanel.Children.Add(border);
+        //    }
+        //}
+
+        //    {
+        //        // Erstelle das Border-Element für jeden Tisch
+        //        Border border = new Border
+        //        {
+        //            Width = 50,
+        //            Height = 50,
+        //            Background = Brushes.LightGray,
+        //            BorderBrush = Brushes.Black,
+        //            BorderThickness = new Thickness(1),
+        //            Margin = new Thickness(5),
+        //            Child = new TextBlock
+        //            {
+        //                Text = table.TISCH,
+        //                HorizontalAlignment = HorizontalAlignment.Center,
+        //                VerticalAlignment = VerticalAlignment.Center
+        //            },
+        //            // Speichere den TISCH als Tag im Border-Element
+        //            Tag = table.TISCH
+        //        };
+
+        //        // Erstelle das Kontextmenü für dieses Border-Element
+        //        ContextMenu contextMenu = new ContextMenu();
+        //        MenuItem OpenTableMenuItemMerge = new MenuItem { Header = "Umbelegen ↹", Tag = table.TISCH };
+        //        MenuItem OpenTableMenuItemKill = new MenuItem { Header = "Löschen 💀", Tag = table.TISCH };
+        //        OpenTableMenuItemMerge.Click += Button_TableMerge;
+        //        OpenTableMenuItemKill.Click += Button_KillTable_Click;
+        //        contextMenu.Items.Add(OpenTableMenuItemMerge);
+        //        contextMenu.Items.Add(OpenTableMenuItemKill);
+
+        //        // Weise das Kontextmenü dem Border-Element zu
+        //        border.ContextMenu = contextMenu;
+
+        //        // Füge das Border-Element dem WrapPanel hinzu
+        //        opentablesWrapPanel.Children.Add(border);
+        //    }
+        //}
 
 
         private ContextMenu CreateContextMenu(string tisch)
@@ -271,8 +400,8 @@ namespace Nt.Utility
             {
                 string tisch = menuItem?.Tag as String;
                 string FA = Nt_FA.Text;
-                string KASSA = "RK99";
-                string KEY = "1";
+                string KASSA = ManageTableInput_KASSA.Text;
+                string KEY = ManageTableInput_KEY.Text;
                 string von_TISCH = tisch ?? fromTable.Text;
 
 

@@ -11,7 +11,7 @@
     </Window.Resources>
     <Grid>
 
-        <TabControl x:Name="MainTab" Margin="0,0,0,30" Grid.ColumnSpan="2">
+        <TabControl x:Name="MainTab" Margin="0,0,0,30" Grid.ColumnSpan="2" SelectionChanged="MainTab_SelectionChanged">
             <TabItem x:Name="connection" Header="Connection">
                 <Grid Background="#FFE5E5E5" RenderTransformOrigin="0.5,0.5">
                     <Grid.ColumnDefinitions>
@@ -31,18 +31,31 @@
                     <Button x:Name="connect" Content="connect" HorizontalAlignment="Left" Margin="33,164,0,0" VerticalAlignment="Top" Click="Button_Connect_Click" Width="100" Height="20" Grid.Column="1"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Manage table">
+            <TabItem x:Name="manageTable" Header="Manage table">
                 <Grid Background="#FFE5E5E5">
 
                     <TextBox x:Name="fromTable" TextWrapping="Wrap" Text="Tisch" Width="120" Height="20" TextChanged="TextBox_TextChanged" HorizontalAlignment="Left" VerticalAlignment="Top" GotFocus="TextBox_GotFocus" Margin="10,348,0,0"/>
                     <TextBox x:Name="toTable" TextWrapping="Wrap" Text="auf Tisch" Width="120" Height="20" TextChanged="TextBox_TextChanged" HorizontalAlignment="Left" VerticalAlignment="Top" GotFocus="TextBox_GotFocus" Margin="151,348,0,0"/>
                     <Button Content="☠ Tisch löschen ☠" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Click="Button_KillTable_Click" Margin="10,373,0,0"/>
-                    <Button Content="Tisch umbelegen" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Click="Button_TableMerge" Margin="294,348,0,0"/>
-                    <Button x:Name="refresh" Content="Refresh" HorizontalAlignment="Left" Margin="490,348,0,0" VerticalAlignment="Top" Height="45" Width="58" Click="refresh_Click"/>
-                    <GroupBox x:Name="openTables" HorizontalAlignment="Center" Height="327" Header="open tables" VerticalAlignment="Top" Width="574" Margin="0,10,0,0">
+                    <Button Content="Tisch umbelegen" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="122" Click="Button_TableMerge" Margin="292,348,0,0"/>
+                    <Button x:Name="refresh" Content="Refresh" Margin="151,373,180,10" Click="refresh_Click" IsEnabled="False" Visibility="Hidden"/>
+                    <GroupBox x:Name="openTables" Header="open tables" Margin="10,10,180,83">
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <WrapPanel x:Name="opentablesWrapPanel" />
                         </ScrollViewer>
+                    </GroupBox>
+                    <GroupBox Header="settings" Margin="419,10,10,284">
+                        <Canvas>
+                            <Label Content="Kellner" HorizontalAlignment="Left" VerticalAlignment="Center" Width="66" Canvas.Left="10" HorizontalContentAlignment="Right" Canvas.Top="7" />
+                            <TextBox x:Name="ManageTableInput_KEY" TextWrapping="Wrap" Text="987" Height="20" Canvas.Left="81" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50" Canvas.Top="10"/>
+                            <Label Content="RK" HorizontalAlignment="Left" Canvas.Left="10" Canvas.Top="32" Width="66" HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
+                            <TextBox x:Name="ManageTableInput_KASSA" TextWrapping="Wrap" Text="99" Height="20" Canvas.Left="81" Canvas.Top="35" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50"/>
+
+                        </Canvas>
+
+                    </GroupBox>
+                    <GroupBox Header="VKO offset" Margin="419,147,10,10">
+                        <Label Content="Coming soon" Height="81" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                     </GroupBox>
 
 
@@ -94,8 +107,8 @@
             </TabItem>
             <TabItem Header="Nt.Fiscal">
                 <Grid Background="#FFE5E5E5">
-                    <TextBox x:Name="NtFiscal_EventLog" Margin="10,123,10,10" TextWrapping="Wrap" Text="" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
-                    <Button x:Name="NtFiscalUpdate" Content="Update Nt.Fiscal" Margin="420,10,10,0" VerticalAlignment="Top" Height="35" Click="NtFiscalUpdate_Click"/>
+                    <TextBox x:Name="NtFiscal_EventLog" Margin="10,166,10,10" TextWrapping="Wrap" Text="" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+                    <Button x:Name="NtFiscalUpdate" Content="Update Nt.Fiscal" Margin="420,126,10,0" VerticalAlignment="Top" Height="35" Click="NtFiscalUpdate_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Nt.Server.Suite" IsEnabled="False">
