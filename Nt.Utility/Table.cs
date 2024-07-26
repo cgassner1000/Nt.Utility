@@ -68,11 +68,13 @@ namespace Nt.Utility
         }
         public void Merge(string von_TISCH, string auf_TISCH, string FA, string KASSA, string KEY)
         {
+            string IRIS_Timestamp = Database.GetIRISTimestamp();
+
             try
             {
                 database.iris.ClassMethodVoid("cmNT.SplittOman", "SetUmbelegung", FA, KASSA, KEY, von_TISCH, auf_TISCH);
                 Debug.WriteLine($"{FA} | {KASSA} | {KEY} | {von_TISCH} | {auf_TISCH}");
-                database.iris.Set($"{KEY}```{KEY}", "^KASSA", $"{FA}", "7", $"{auf_TISCH}");
+                database.iris.Set($"{KEY}`{IRIS_Timestamp}``{KEY}", "^KASSA", $"{FA}", "7", $"{auf_TISCH}");
                 if (von_TISCH != auf_TISCH)
                 {
                     database.iris.Set("", "^KASSA", $"{FA}", "7", $"{von_TISCH}");

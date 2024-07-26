@@ -403,6 +403,7 @@ namespace Nt.Utility
                 string KASSA = ManageTableInput_KASSA.Text;
                 string KEY = ManageTableInput_KEY.Text;
                 string von_TISCH = tisch ?? fromTable.Text;
+                
 
 
                 // Eingabeaufforderung für auf_TISCH
@@ -421,7 +422,7 @@ namespace Nt.Utility
                 UpdateOpenTablesUI();
 
                 MessageBox.Show($"Tisch {von_TISCH} erfolgreich auf Tisch {auf_TISCH} umbelegt");
-                LogEvent($"NOVACOM: Tisch {von_TISCH} auf Tisch {auf_TISCH} umbelegt");
+                LogEvent($"NOVACOM: Tisch {von_TISCH} -> Kellner {KEY} Tisch {auf_TISCH}");
 
             }
             catch (Exception ex)

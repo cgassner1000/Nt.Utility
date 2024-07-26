@@ -64,5 +64,24 @@ namespace Nt.Utility
 
             StatusBrush = new SolidColorBrush(Colors.Red);
         }
+        public static string GetIRISTimestamp()
+        {
+            // Datum für den Startpunkt des IRIS $H-Timestamps
+            DateTime irisEpoch = new DateTime(1840, 12, 31);
+
+            // Aktuelles Datum und Uhrzeit
+            DateTime now = DateTime.UtcNow;
+
+            // Berechnung der Anzahl der Tage seit dem Startpunkt
+            TimeSpan timeSinceEpoch = now - irisEpoch;
+            int daysSinceEpoch = (int)timeSinceEpoch.TotalDays;
+
+            // Berechnung der Anzahl der Sekunden seit Mitternacht
+            TimeSpan timeOfDay = now.TimeOfDay;
+            int secondsSinceMidnight = (int)timeOfDay.TotalSeconds;
+
+            // Formatierung als $H-Timestamp
+            return $"{daysSinceEpoch},{secondsSinceMidnight:D5}"; // Die Sekunden werden auf 5 Stellen aufgefüllt
+        }
     }
 }
