@@ -1,0 +1,143 @@
+﻿<Window x:Class="Nt.Utility.MainWindow_OLD"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Nt.Utility"
+        mc:Ignorable="d"
+        Title="Nt.Utility" Height="500" Width="600" ResizeMode="NoResize">
+    <Window.Resources>
+        <BitmapImage x:Key="InfoIcon" UriSource="Images/info.256x256.png"/>
+    </Window.Resources>
+    <Grid>
+
+        <TabControl x:Name="MainTab" Margin="0,0,0,30" Grid.ColumnSpan="2" SelectionChanged="MainTab_SelectionChanged">
+            <TabItem x:Name="connection" Header="Connection">
+                <Grid Background="#FFE5E5E5" RenderTransformOrigin="0.5,0.5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="121*"/>
+                        <ColumnDefinition Width="655*"/>
+
+                    </Grid.ColumnDefinitions>
+                    <TextBlock HorizontalAlignment="Center" Margin="0,40,0,0" TextAlignment="Right" TextWrapping="Wrap" Text="Server" VerticalAlignment="Top" Width="80" Height="20"/>
+                    <TextBlock HorizontalAlignment="Center" Margin="0,65,0,0" TextAlignment="Right" TextWrapping="Wrap" Text="Port" VerticalAlignment="Top" Width="80" Height="20"/>
+                    <TextBlock HorizontalAlignment="Center" Margin="0,90,0,0" TextAlignment="Right" TextWrapping="Wrap" Text="Namespace" VerticalAlignment="Top" Width="80" Height="20"/>
+                    <TextBlock HorizontalAlignment="Center" Margin="0,115,0,0" TextAlignment="Right" TextWrapping="Wrap" Text="FA" VerticalAlignment="Top" Width="80" Height="20"/>
+                    <TextBox x:Name="connserver" HorizontalAlignment="Left" Margin="29,40,0,0" TextWrapping="Wrap" Text="127.0.0.1" VerticalAlignment="Top" Width="120" Height="20" Grid.Column="1" GotFocus="TextBox_GotFocus" LostFocus="connserver_LostFocus"/>
+                    <TextBox x:Name="connport" HorizontalAlignment="Left" Margin="29,65,0,0" TextWrapping="Wrap" Text="1972" VerticalAlignment="Top" Width="120" Height="20" Grid.Column="1" GotFocus="TextBox_GotFocus" LostFocus="connport_LostFocus"/>
+                    <TextBox x:Name="connnamespace" HorizontalAlignment="Left" Margin="29,90,0,0" TextWrapping="Wrap" Text="USER" VerticalAlignment="Top" Width="120" Height="20" Grid.Column="1" GotFocus="TextBox_GotFocus" LostFocus="connnamespace_LostFocus"/>
+                    <TextBox x:Name="Nt_FA" HorizontalAlignment="Left" Margin="29,115,0,0" TextWrapping="Wrap" Text="1001" VerticalAlignment="Top" Width="120" Height="20" Grid.Column="1" GotFocus="TextBox_GotFocus" LostFocus="connNt_FA_LostFocus"/>
+                    <Button x:Name="disconnect" Content="disconnect" HorizontalAlignment="Left" Margin="21,164,0,0" VerticalAlignment="Top" Click="Button_disconnect_Click" Width="100" Height="20" Grid.ColumnSpan="2"/>
+                    <Button x:Name="connect" Content="connect" HorizontalAlignment="Left" Margin="33,164,0,0" VerticalAlignment="Top" Click="Button_Connect_Click" Width="100" Height="20" Grid.Column="1"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="manageTable" Header="Manage table">
+                <Grid Background="#FFE5E5E5">
+
+                    <TextBox x:Name="fromTable" TextWrapping="Wrap" Text="Tisch" Width="120" Height="20" TextChanged="TextBox_TextChanged" HorizontalAlignment="Left" VerticalAlignment="Top" GotFocus="TextBox_GotFocus" Margin="10,348,0,0"/>
+                    <TextBox x:Name="toTable" TextWrapping="Wrap" Text="auf Tisch" Width="120" Height="20" TextChanged="TextBox_TextChanged" HorizontalAlignment="Left" VerticalAlignment="Top" GotFocus="TextBox_GotFocus" Margin="151,348,0,0"/>
+                    <Button Content="☠ Tisch löschen ☠" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Click="Button_KillTable_Click" Margin="10,373,0,0"/>
+                    <Button Content="Tisch umbelegen" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="122" Click="Button_TableMerge" Margin="292,348,0,0"/>
+                    <Button x:Name="refresh" Content="Refresh" Margin="151,373,180,10" Click="refresh_Click" IsEnabled="False" Visibility="Hidden"/>
+                    <GroupBox x:Name="openTables" Header="open tables" Margin="10,10,180,83">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <WrapPanel x:Name="opentablesWrapPanel" />
+                        </ScrollViewer>
+                    </GroupBox>
+                    <GroupBox Header="settings" Margin="419,10,10,284">
+                        <Canvas>
+                            <Label Content="Kellner" HorizontalAlignment="Left" VerticalAlignment="Center" Width="66" Canvas.Left="10" HorizontalContentAlignment="Right" Canvas.Top="7" />
+                            <TextBox x:Name="ManageTableInput_KEY" TextWrapping="Wrap" Text="987" Height="20" Canvas.Left="81" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50" Canvas.Top="10"/>
+                            <Label Content="RK" HorizontalAlignment="Left" Canvas.Left="10" Canvas.Top="32" Width="66" HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
+                            <TextBox x:Name="ManageTableInput_KASSA" TextWrapping="Wrap" Text="99" Height="20" Canvas.Left="81" Canvas.Top="35" HorizontalAlignment="Left" VerticalAlignment="Center" Width="50"/>
+
+                        </Canvas>
+
+                    </GroupBox>
+                    <GroupBox Header="VKO offset" Margin="419,147,10,10">
+                        <Label Content="Coming soon" Height="81" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                    </GroupBox>
+
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Fiskaltrust">
+
+                <Grid Background="#FFE5E5E5">
+                    <TextBlock HorizontalAlignment="Left" Margin="9,10,0,0" TextAlignment="Right" TextWrapping="Wrap" Text="Server" VerticalAlignment="Top" Width="80" Height="20"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="9,35,0,0" TextAlignment="Right" TextWrapping="Wrap" Text="Port" VerticalAlignment="Top" Width="80" Height="20"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="9,110,0,0" TextAlignment="Right" TextWrapping="Wrap" Text="CashboxID" VerticalAlignment="Top" Width="80" Height="20"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,135,0,0" TextAlignment="Right" TextWrapping="Wrap" Text="TerminalID" VerticalAlignment="Top" Width="80" Height="20"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,160,0,0" TextAlignment="Right" TextWrapping="Wrap" Text="User" VerticalAlignment="Top" Width="80" Height="20"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,190,0,0" TextAlignment="Right" TextWrapping="Wrap" Text="Transaktionen" VerticalAlignment="Top" Width="80" Height="20"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="10,222,0,0" TextAlignment="Right" TextWrapping="Wrap" Text="Export:" VerticalAlignment="Top" Width="80" Height="20"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="9,240,0,0" TextAlignment="Right" TextWrapping="Wrap" Text="Von" VerticalAlignment="Top" Width="80" Height="20"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="9,265,0,0" TextAlignment="Right" TextWrapping="Wrap" Text="Bis" VerticalAlignment="Top" Width="80" Height="20"/>
+                    <Button x:Name="fiskal_echo" Content="check connection" HorizontalAlignment="Left" Margin="94,60,0,0" VerticalAlignment="Top" Click="fiskal_echo_Click" Width="120" Height="30" FontSize="11"/>
+                    <TextBox x:Name="fiscal_server" HorizontalAlignment="Left" Margin="94,10,0,0" TextWrapping="Wrap" Text="localhost" VerticalAlignment="Top" Width="120" Height="20" GotFocus="TextBox_GotFocus"/>
+                    <TextBox x:Name="fiscal_port" HorizontalAlignment="Left" Margin="94,35,0,0" TextWrapping="Wrap" Text="1400" VerticalAlignment="Top" Width="120" Height="20" GotFocus="TextBox_GotFocus"/>
+                    <TextBox x:Name="fiscal_cashboxID" HorizontalAlignment="Left" Margin="94,110,0,0" TextWrapping="Wrap" Text="00000000-0000-0000-0000-000000000000" VerticalAlignment="Top" Width="245" Height="20" GotFocus="TextBox_GotFocus"/>
+                    <TextBox x:Name="fiscal_terminalID" HorizontalAlignment="Left" Margin="94,135,0,0" TextWrapping="Wrap" Text="001" VerticalAlignment="Top" Width="40" Height="20" GotFocus="TextBox_GotFocus"/>
+                    <TextBox x:Name="fiscal_userID" HorizontalAlignment="Left" Margin="95,160,0,0" TextWrapping="Wrap" Text="Novacom" VerticalAlignment="Top" Width="60" Height="20" GotFocus="TextBox_GotFocus"/>
+                    <TextBox x:Name="fiscal_startetTransactionNumber" HorizontalAlignment="Left" Margin="94,190,0,0" TextWrapping="Wrap" Text="1, 2, 3, 4, etc." VerticalAlignment="Top" Width="245" Height="20" GotFocus="TextBox_GotFocus" />
+                    <TextBox x:Name="export_from_date" HorizontalAlignment="Left" Margin="94,240,0,0" TextWrapping="Wrap" Text="01.01.2020" VerticalAlignment="Top" Width="70" Height="20" GotFocus="TextBox_GotFocus"/>
+                    <TextBox x:Name="export_to_date" HorizontalAlignment="Left" Margin="94,265,0,0" TextWrapping="Wrap" Text="31.12.2023" VerticalAlignment="Top" Width="70" Height="20" GotFocus="TextBox_GotFocus"/>
+                    <Button x:Name="create_start_receipt" Content="Inbetriebnahme" Click="create_start_receipt_Click" Margin="420,10,10,0" Height="35" VerticalAlignment="Top" FontSize="11" />
+                    <Button x:Name="create_stop_receipt" Content="☠ Außerbetriebnahme ☠" Click="create_stop_receipt_Click" Margin="420,275,10,0" Height="35" VerticalAlignment="Top" FontSize="11" />
+                    <Button x:Name="zero_receipt" Content="Nullbeleg" Click="zero_receipt_Click" Margin="420,60,10,0" Height="35" VerticalAlignment="Top" FontSize="11" />
+                    <Button x:Name="zero_receipt_TSEInfo" Content="Nullbeleg + TSE Info" Click="zero_receipt_TSEInfo_Click" Margin="420,100,10,0" Height="35" VerticalAlignment="Top" FontSize="11" />
+                    <Button x:Name="zero_receipt_closeTransaktions" Click="zero_receipt_closeTransaktions_Click" Margin="420,140,10,0" Height="35" VerticalAlignment="Top" FontSize="11">
+                        <TextBlock Text="Nullbeleg + offene Transaktionen schließen" TextWrapping="Wrap" TextAlignment="Center"/>
+                    </Button>
+                    <Button x:Name="daily_closing" Content="Tagesabschluss" Click="daily_closing_Click" Margin="420,220,10,0" Height="35" VerticalAlignment="Top" FontSize="11" />
+                    <Button x:Name="initiate_SCU" Click="initiate_SCU_Click" Margin="0,321,179,0" Height="35" VerticalAlignment="Top" FontSize="11" HorizontalAlignment="Right" Width="164">
+                        <TextBlock Text="Initial-Switch                         (SCU-tausch / bleibt aktiv)" TextWrapping="Wrap" TextAlignment="Center"/>
+                    </Button>
+                    <Button x:Name="initiate_SCU_deaktivate" Click="initiate_SCU_deaktivate_Click" Margin="0,361,179,0" Height="35" VerticalAlignment="Top" FontSize="11" HorizontalAlignment="Right" Width="164">
+                        <TextBlock Text="Initial-Switch                         (SCU-tausch / deaktivieren)" TextWrapping="Wrap" TextAlignment="Center"/>
+                    </Button>
+                    <Button x:Name="finish_SCU" Click="finish_SCU_Click" Margin="420,338,10,0" Height="35" VerticalAlignment="Top" FontSize="11">
+                        <TextBlock Text="Finish-Switch                         (SCU-tausch abschließen)" TextWrapping="Wrap" TextAlignment="Center"/>
+                    </Button>
+                    <Button x:Name="fail_multi_transaction_receipt" Content="offene Transaktionen schließen" Click="fail_multi_transaction_Click" Margin="420,180,10,0" Height="35" VerticalAlignment="Top" FontSize="11" />
+                    <Button x:Name="DSFinVK_export" Content="DSFinV-K Export" Click="ExportJournal_Click" Margin="169,230,283,0" Height="30" VerticalAlignment="Top" FontSize="10"/>
+                    <Button x:Name="TAR_middleware_export" Content="TAR export von Middleware" Click="TAR_middleware_export_Click" Margin="169,265,283,0" Height="30" VerticalAlignment="Top" FontSize="10" IsEnabled="False"/>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Nt.Fiscal">
+                <Grid Background="#FFE5E5E5">
+                    <TextBox x:Name="NtFiscal_EventLog" Margin="10,166,10,10" TextWrapping="Wrap" Text="" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+                    <Button x:Name="NtFiscalUpdate" Content="Update Nt.Fiscal" Margin="420,126,10,0" VerticalAlignment="Top" Height="35" Click="NtFiscalUpdate_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Nt.Server.Suite" IsEnabled="False">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Nt.Booking" IsEnabled="False">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="EventLog" IsEnabled="True">
+                <Grid Background="#FFE5E5E5">
+                    <TextBox x:Name="EventLog" Margin="10,10,10,10" TextWrapping="Wrap" Text="" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Ellipse x:Name="statusEllipse_DB" Width="20" Height="20" Fill="Red" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" Grid.Column="1"/>
+        <Label Content="database connection" HorizontalContentAlignment="Right" Margin="0,0,30,1" VerticalAlignment="Bottom" Width="154" Grid.Column="1" HorizontalAlignment="Right"/>
+        <Ellipse x:Name="statusEllipse_updateservice" Width="20" Fill="Red" HorizontalAlignment="Left" Margin="5,0,0,5" Height="20" VerticalAlignment="Bottom"/>
+        <Label Content="updateservice connection" HorizontalContentAlignment="left" Margin="30,0,0,1" VerticalAlignment="Bottom" Width="154" HorizontalAlignment="Left"/>
+
+
+    </Grid>
+    <!--
+    <Window.Resources>
+        <ContextMenu x:Key="openTableContextMenu">
+            <MenuItem Header="Umbelegen" Click="OpenTable_MenuItem_merge_Click"/>
+            <MenuItem Header="Tisch Löschen" Click="OpenTable_MenuItem_kill_Click"/>
+        </ContextMenu>
+    </Window.Resources>
+    -->
+</Window>
+

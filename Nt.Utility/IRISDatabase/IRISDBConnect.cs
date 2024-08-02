@@ -3,46 +3,53 @@ using InterSystems.Data.IRISClient;
 using System.Windows.Media;
 using InterSystems.Data.IRISClient.ADO;
 using System.Windows;
+using System.Diagnostics;
 
-namespace Nt.Utility
+namespace Nt.Utility.IRISDatabase
 {
-    internal class Database
+    public class IRISDBConnect
     {
+        private static IRISDBConnect _instance;
+
+        public static IRISDBConnect Instance => _instance ?? (_instance = new IRISDBConnect());
+
         public IRISConnection? conn { get; private set; }
         public IRIS? iris { get; private set; }
 
-        public IRISConnection? Connection => conn;
-        public bool IsConnected => iris != null;
+        private IRISDBConnect() { }
 
-        public SolidColorBrush? StatusBrush { get; private set; }
-
-        public IRIS Connect(string server, string port, string dbNamespace, string password, string userId)
+        public void Connect()
         {
             try
             {
+                string PWS = "SYS";
+                string USERID = "_SYSTEM";
+ 
+                Disconnect();
+                Debug.WriteLine("Mitten im Connect");
+                var data = IRISDBData.Instance;
                 conn = new IRISConnection
                 {
-                    ConnectionString = $"Server={server};Port={port};Namespace={dbNamespace};Password={password};User ID={userId};"
+                    ConnectionString = $"Server={data.Server};Port={data.Port};Namespace={data.Nt_Namepsace};Password={PWS}; User ID={USERID};"
                 };
                 conn.Open();
                 iris = IRIS.CreateIRIS(conn);
-                StatusBrush = new SolidColorBrush(Colors.Green);
-                return iris;
+                Debug.WriteLine($"IRIS: Database.Connect hergestellt: {iris}");
+                //return iris;
             }
             catch (Exception ex)
             {
-                StatusBrush = new SolidColorBrush(Colors.Red);
                 throw new Exception($"Fehler beim Verbindungsaufbau zur Datenbank: {ex.Message}");
             }
         }
 
         public bool CheckConnection()
         {
-            if (iris == null)
+            Debug.WriteLine("IRIS: Database.CheckConnection");
+            if (iris == null || conn == null || conn.State != System.Data.ConnectionState.Open)
             {
-                MessageBox.Show("Keine Verbindung zur Datenbank. Bitte zuerst verbinden.");
-                StatusBrush = new SolidColorBrush(Colors.Red);
-
+                Debug.WriteLine("Verbindung ist nicht vorhanden oder geschlossen, erneuter Verbindungsaufbau.");
+                Connect();
                 return false;
             }
             return true;
@@ -62,7 +69,6 @@ namespace Nt.Utility
                 conn = null;
             }
 
-            StatusBrush = new SolidColorBrush(Colors.Red);
         }
         public static string GetIRISTimestamp()
         {

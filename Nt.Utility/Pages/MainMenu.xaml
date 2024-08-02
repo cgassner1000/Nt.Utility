@@ -1,0 +1,26 @@
+﻿<Page x:Class="Nt.Utility.MainMenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Nt.Utility"
+      mc:Ignorable="d"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MainMenu">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="\Styles\ButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+            <Button x:Name="DatabaseTools_Button" Content="Datenbank tools" Width="150" Height="40" Click="DatabaseTools_Button_Click"/>
+            <Button x:Name="SoftwareInstall_Button" Content="Software Install/Update" Width="150" Height="40" Margin="0,5,0,0" Click="SoftwareInstall_Button_Click" IsEnabled="False"/>
+            <Button x:Name="Fiskaltrust_Connection_Button" Content="Fiskaltrust" Width="150" Height="40" Margin="0,5,0,0" Click="Fiskaltrust_Connection_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>

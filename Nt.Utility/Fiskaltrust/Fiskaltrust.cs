@@ -16,6 +16,8 @@ using Newtonsoft.Json;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using System.Text.Json;
+using System.Diagnostics;
+using System.Windows.Controls;
 
 namespace Nt.Utility.Fiskaltrust
 {
@@ -29,7 +31,6 @@ namespace Nt.Utility.Fiskaltrust
         private readonly string _userID;
         private readonly string _openTransaktions;
         private readonly string _NCPosSystemID;
-        private readonly MainWindow mainWindow;
 
         private POS.POSClient _client;
         private string _timestamp;
@@ -72,6 +73,11 @@ namespace Nt.Utility.Fiskaltrust
                        dateTime.Kind == DateTimeKind.Local ? ProtoBuf.Bcl.DateTime.Types.DateTimeKind.Local :
                        ProtoBuf.Bcl.DateTime.Types.DateTimeKind.Unspecified
             };
+        }
+
+        private class TseInfoWrapper
+        {
+            public fiskaltrust.ifPOS.v1.ReceiptResponse TseInfo { get; set; }
         }
 
         public void FiskalConnect()
@@ -140,6 +146,7 @@ namespace Nt.Utility.Fiskaltrust
         public async Task<string> ZeroReceiptTSEInfoAsync()
         {
             FiskalConnect();
+            Debug.WriteLine("Begin TSE Info");
 
             var request = new fiskaltrust.ifPOS.v1.ReceiptRequest
             {
@@ -153,9 +160,43 @@ namespace Nt.Utility.Fiskaltrust
 
             };
             var response = await _client.SignAsync(request);
+            // Extrahieren der ftStateData-Informationen
+            if (!string.IsNullOrEmpty(response.FtStateData))
+            {
+                JObject ftStateDataJson = JObject.Parse(response.FtStateData);
+                var currentStartedTransactionNumbers = ftStateDataJson.SelectToken("TseInfo.CurrentStartedTransactionNumbers")?.ToObject<List<int>>();
+                
+                Debug.WriteLine("Set Open Transaction");
+
+                SaveTseInfoToFiskaltrustData(currentStartedTransactionNumbers);
+
+
+            }
 
             return response.FtReceiptIdentification;
 
+        }
+
+        private void SaveTseInfoToFiskaltrustData(List<int> currentStartedTransactionNumbers)
+        {
+            if (currentStartedTransactionNumbers == null || currentStartedTransactionNumbers.Count == 0)
+            {
+                // Wenn null oder leer, zeige "keine offenen Transaktionen" in der TextBox
+                FiskaltrustData.Instance.CurrentStartedTransactionNumbers = null;
+
+                Debug.WriteLine("Current Number of Started Transactions gesetzt: keine offenen Transaktionen");
+            }
+            else
+            {
+                // Konvertiere die Liste in eine durch Kommas getrennte Zeichenkette
+                string transactionNumbersString = string.Join(", ", currentStartedTransactionNumbers);
+
+                // Zuweise der Zeichenkette zu FiskaltrustData.Instance.CurrentStartedTransactionNumbers
+                FiskaltrustData.Instance.CurrentStartedTransactionNumbers = transactionNumbersString;
+
+
+                Debug.WriteLine($"Current Number of Started Transactions gesetzt: {transactionNumbersString}");
+            }
         }
         public async Task<string> ZeroReceiptCloseTransaktionsAsync()
         {
@@ -173,6 +214,7 @@ namespace Nt.Utility.Fiskaltrust
 
             };
             var response = await _client.SignAsync(request);
+           
 
             return response.FtReceiptIdentification;
 
@@ -239,24 +281,6 @@ namespace Nt.Utility.Fiskaltrust
             return response.FtReceiptIdentification;
 
         }
-        private void ProcessTransactionNumbers(string transactionNumbersText)
-        {
-            var transactionNumbers = transactionNumbersText
-                .Split(',')
-                .Select(s => s.Trim()) // Leerzeichen vor und nach der Nummer entfernen
-                .Where(s => !string.IsNullOrEmpty(s)) // Leere Einträge filtern
-                .Select(int.Parse) // In Ganzzahlen umwandeln
-                .ToList();
-
-            // Erzeuge das JSON für die Transaktionsnummern
-            var transactionNumbersData = new
-            {
-                CurrentStartedTransactionNumbers = transactionNumbers
-            };
-
-            // JSON-String erstellen und Escape-Zeichen hinzufügen
-            _transactionNumbersJson = JsonConvert.SerializeObject(transactionNumbersData);
-        }
 
         public async Task<string> InitiateSCUAsync()
         {
@@ -318,7 +342,47 @@ namespace Nt.Utility.Fiskaltrust
 
         }
 
-        public async Task<string> ExportJournalAsync(System.DateTime fromDate, System.DateTime toDate)
+        public async Task<string> CustomCommandAsync(long ftReceiptCase)
+        {
+            FiskalConnect();
+
+            var request = new fiskaltrust.ifPOS.v1.ReceiptRequest
+            {
+                FtCashBoxID = _cashBoxID,
+                FtPosSystemId = _NCPosSystemID,
+                CbReceiptMoment = ToBclDateTime(System.DateTime.UtcNow),
+                FtReceiptCase = ftReceiptCase,
+                CbTerminalID = _terminalID,
+                CbReceiptReference = "SonstigerVorgang"
+
+
+            };
+            var response = await _client.SignAsync(request);
+
+
+            return response.FtReceiptIdentification;
+
+        }
+        private void ProcessTransactionNumbers(string transactionNumbersText)
+        {
+            var transactionNumbers = transactionNumbersText
+                .Split(',')
+                .Select(s => s.Trim()) // Leerzeichen vor und nach der Nummer entfernen
+                .Where(s => !string.IsNullOrEmpty(s)) // Leere Einträge filtern
+                .Select(int.Parse) // In Ganzzahlen umwandeln
+                .ToList();
+
+            // Erzeuge das JSON für die Transaktionsnummern
+            var transactionNumbersData = new
+            {
+                CurrentStartedTransactionNumbers = transactionNumbers
+            };
+
+            // JSON-String erstellen und Escape-Zeichen hinzufügen
+            _transactionNumbersJson = JsonConvert.SerializeObject(transactionNumbersData);
+        }
+
+        public async Task<string> FiscalExportDSFinVKAsync(System.DateTime fromDate, System.DateTime toDate)
         {
             FiskalConnect();
 

@@ -1,0 +1,92 @@
+﻿<Page x:Class="Nt.Utility.FiskaltrustMain"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Nt.Utility"
+      mc:Ignorable="d" d:DesignWidth="1024"
+      Title="FiskaltrustMain" Height="660">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="\Styles\ButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Background="White">
+
+
+        <TextBlock HorizontalAlignment="Left" Margin="9,10,0,0" TextAlignment="Right" TextWrapping="Wrap" Text="Server" VerticalAlignment="Top" Width="80" Height="20"/>
+        <TextBlock HorizontalAlignment="Left" Margin="9,35,0,0" TextAlignment="Right" TextWrapping="Wrap" Text="Port" VerticalAlignment="Top" Width="80" Height="20"/>
+        <TextBlock HorizontalAlignment="Left" Margin="9,60,0,0" TextAlignment="Right" TextWrapping="Wrap" Text="CashboxID" VerticalAlignment="Top" Width="80" Height="20"/>
+
+
+        <TextBlock Margin="477,10,467,0" TextAlignment="Right" TextWrapping="Wrap" Text="TerminalID" VerticalAlignment="Top" Height="20"/>
+        <TextBox x:Name="fiscal_terminalID" Margin="562,10,387,0" TextWrapping="Wrap" Text="001" VerticalAlignment="Top" Height="20" GotFocus="TextBox_GotFocus"/>
+        <TextBlock Margin="477,35,467,0" TextAlignment="Right" TextWrapping="Wrap" Text="User" VerticalAlignment="Top" Height="20"/>
+        <TextBox x:Name="fiscal_userID" Margin="562,35,387,0" TextWrapping="Wrap" Text="Novacom" VerticalAlignment="Top" Height="20" GotFocus="TextBox_GotFocus"/>
+
+
+        <Button x:Name="fiskal_echo" Content="check connection" Margin="94,85,730,0" VerticalAlignment="Top" Click="fiskal_echo_Click" Height="40" FontSize="11"/>
+        <TextBox x:Name="fiscal_server" Margin="94,10,810,0" TextWrapping="Wrap" Text="localhost" VerticalAlignment="Top" Height="20" GotFocus="TextBox_GotFocus"/>
+        <TextBox x:Name="fiscal_port" Margin="94,35,810,0" TextWrapping="Wrap" Text="1400" VerticalAlignment="Top" Height="20" GotFocus="TextBox_GotFocus"/>
+        <TextBox x:Name="fiscal_cashboxID" HorizontalAlignment="Left" Margin="94,60,0,0" TextWrapping="Wrap" Text="00000000-0000-0000-0000-000000000000" VerticalAlignment="Top" Width="245" Height="20" GotFocus="TextBox_GotFocus"/>
+
+
+
+
+        <Button x:Name="zero_receipt" Content="Nullbeleg" Click="zero_receipt_Click" Margin="780,141,44,0" Height="40" VerticalAlignment="Top" FontSize="11" />
+        <Button x:Name="zero_receipt_TSEInfo" Content="Nullbeleg + TSE Info" Click="zero_receipt_TSEInfo_Click" Margin="780,186,44,0" Height="40" VerticalAlignment="Top" FontSize="11" />
+
+        <Button x:Name="daily_closing" Content="Tagesabschluss" Click="daily_closing_Click" Margin="780,270,44,0" Height="40" VerticalAlignment="Top" FontSize="11" />
+
+
+
+
+        <TextBlock HorizontalAlignment="Left" TextAlignment="Right" TextWrapping="Wrap" Text="offene Transaktionen" VerticalAlignment="Top" Width="80" Height="36" Canvas.Left="20" Canvas.Top="24" Margin="9,180,0,0"/>
+        <TextBox x:Name="fiscal_startetTransactionNumber" TextWrapping="Wrap" Text="1, 2, 3, 4, etc." VerticalAlignment="Top" Height="20" GotFocus="TextBox_GotFocus" Canvas.Left="105" Canvas.Top="24" Margin="94,188,730,0" />
+        <Button x:Name="fail_multi_transaction_receipt" Content="Transaktionen schließen" Click="fail_multi_transaction_Click" Height="40" VerticalAlignment="Top" FontSize="11" Canvas.Left="146" Canvas.Top="53" Margin="94,221,730,0" />
+        <Button x:Name="zero_receipt_closeTransaktions" Click="zero_receipt_closeTransaktions_Click" Height="40" VerticalAlignment="Top" FontSize="11" Canvas.Left="146" Canvas.Top="98" Margin="94,266,730,0">
+            <TextBlock Text="Nullbeleg + Transaktionen schließen" TextWrapping="Wrap" TextAlignment="Center"/>
+        </Button>
+
+
+
+
+
+        <Button x:Name="finish_SCU" Click="finish_SCU_Click" Height="40" FontSize="11" Canvas.Left="179" Canvas.Top="30" VerticalAlignment="Top" Margin="780,452,44,0">
+            <TextBlock Text="Finish-SCU-Switch" TextWrapping="Wrap" TextAlignment="Center"/>
+        </Button>
+        <Button x:Name="initiate_SCU_deaktivate_Kopieren" Click="initiate_SCU_deaktivate_Click" Height="40" FontSize="11" Canvas.Left="10" Canvas.Top="55" VerticalAlignment="Top" Margin="780,407,44,0">
+            <TextBlock Text="Initial-Switch | SCU deaktivieren" TextWrapping="Wrap" TextAlignment="Center"/>
+        </Button>
+        <Button x:Name="initiate_SCU" Click="initiate_SCU_Click" Height="40" FontSize="11" Canvas.Left="10" Canvas.Top="10" VerticalAlignment="Top" Margin="780,362,44,0">
+            <TextBlock Text="Initial-Switch | SCU bleibt aktiv" TextWrapping="Wrap" TextAlignment="Center"/>
+        </Button>
+
+
+        <Button x:Name="create_start_receipt" Content="Inbetriebnahme" Click="create_start_receipt_Click" Margin="774,10,46,0" FontSize="11" Height="40" VerticalAlignment="Top" Background="#FF218613" />
+        <Button x:Name="create_stop_receipt" Content="☠ Außerbetriebnahme ☠" Click="create_stop_receipt_Click" Margin="774,576,46,0" FontSize="11" Height="40" VerticalAlignment="Top" Background="#FFA92121" />
+        <TextBlock HorizontalAlignment="Left" TextAlignment="Right" TextWrapping="Wrap" Text="Eigener Befehl" VerticalAlignment="Top" Width="65" Height="36" Canvas.Left="20" Canvas.Top="24" Margin="24,348,0,0"/>
+        <TextBox x:Name="Fiscal_Custom_Command_TextBox" TextWrapping="Wrap" Text="4919338172267102210" VerticalAlignment="Top" Height="20" GotFocus="TextBox_GotFocus" Margin="94,356,731,0"/>
+        <Button x:Name="Fiscal_Custom_Command" Content="Eigenen Befehl absetzen" Margin="94,387,730,0" VerticalAlignment="Top" Height="40" Click="Fiscal_Custom_Command_Click"/>
+
+        <TextBlock HorizontalAlignment="Left" Margin="56,461,0,0" TextWrapping="Wrap" Text="Export" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="95,461,0,0" TextWrapping="Wrap" Text="von" VerticalAlignment="Top"/>
+        <DatePicker x:Name="fiscal_export_from" Margin="120,457,775,0" VerticalAlignment="Top" Text="Export von"/>
+        <TextBlock HorizontalAlignment="Left" Margin="100,490,0,0" TextWrapping="Wrap" Text="bis" VerticalAlignment="Top"/>
+        <DatePicker x:Name="fiscal_export_to" Margin="120,486,775,0" VerticalAlignment="Top" Text="Export bis"/>
+        <Button x:Name="Fiscal_Export_DSFinVK" Content="DSFinV-K Export" Margin="94,526,730,0" VerticalAlignment="Top" Height="40" Click="Fiscal_Export_DSFinVK_Click"/>
+
+
+
+
+
+
+
+
+
+    </Grid>
+
+</Page>

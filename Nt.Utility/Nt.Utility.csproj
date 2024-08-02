@@ -9,11 +9,17 @@
     <PublishSingleFile>true</PublishSingleFile>
     <SelfContained>true</SelfContained>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <Version>1.0.20</Version>
+    <Version>1.1.0</Version>
   </PropertyGroup>
   <Target Name="UpdateVersion" BeforeTargets="GenerateAssemblyInfo">
     <Exec Command="powershell -ExecutionPolicy Bypass -File version.ps1" />
   </Target>
+  <ItemGroup>
+    <Compile Remove="MainWindow_OLD.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Remove="MainWindow_OLD.xaml" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="utility_icon.ico" />
   </ItemGroup>
