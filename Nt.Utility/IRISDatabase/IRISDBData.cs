@@ -12,6 +12,7 @@ namespace Nt.Utility.IRISDatabase
 
         public static IRISDBData Instance => _instance ?? (_instance = new IRISDBData());
 
+
         public string Server { get; set; }
         public string Port { get; set; }
         public string Nt_Namepsace { get; set; }
@@ -20,6 +21,7 @@ namespace Nt.Utility.IRISDatabase
         public string KEY { get; set; }
         public string from_Table { get; set; }
         public string to_Table { get; set; }
+        public string VKO { get; set; }
 
         public void SaveIRISDBData(string server, string port, string _Nt_Namespace, string _FA, string _KASSA, string _KEY, string _from_Table, string _to_Table)
         {
@@ -32,5 +34,6 @@ namespace Nt.Utility.IRISDatabase
             from_Table = _from_Table;
             to_Table = _to_Table;
         }
+
     }
 }

@@ -36,10 +36,10 @@
 
 
 
-        <Button x:Name="zero_receipt" Content="Nullbeleg" Click="zero_receipt_Click" Margin="780,141,44,0" Height="40" VerticalAlignment="Top" FontSize="11" />
-        <Button x:Name="zero_receipt_TSEInfo" Content="Nullbeleg + TSE Info" Click="zero_receipt_TSEInfo_Click" Margin="780,186,44,0" Height="40" VerticalAlignment="Top" FontSize="11" />
+        <Button x:Name="zero_receipt" Content="Nullbeleg" Click="zero_receipt_Click" Margin="774,107,46,0" Height="40" VerticalAlignment="Top" FontSize="11" />
+        <Button x:Name="zero_receipt_TSEInfo" Content="Nullbeleg + TSE Info" Click="zero_receipt_TSEInfo_Click" Margin="774,152,46,0" Height="40" VerticalAlignment="Top" FontSize="11" />
 
-        <Button x:Name="daily_closing" Content="Tagesabschluss" Click="daily_closing_Click" Margin="780,270,44,0" Height="40" VerticalAlignment="Top" FontSize="11" />
+        <Button x:Name="daily_closing" Content="Tagesabschluss" Click="daily_closing_Click" Margin="774,236,46,0" Height="40" VerticalAlignment="Top" FontSize="11" />
 
 
 
@@ -55,13 +55,13 @@
 
 
 
-        <Button x:Name="finish_SCU" Click="finish_SCU_Click" Height="40" FontSize="11" Canvas.Left="179" Canvas.Top="30" VerticalAlignment="Top" Margin="780,452,44,0">
+        <Button x:Name="finish_SCU" Click="finish_SCU_Click" Height="40" FontSize="11" Canvas.Left="179" Canvas.Top="30" VerticalAlignment="Top" Margin="774,418,46,0">
             <TextBlock Text="Finish-SCU-Switch" TextWrapping="Wrap" TextAlignment="Center"/>
         </Button>
-        <Button x:Name="initiate_SCU_deaktivate_Kopieren" Click="initiate_SCU_deaktivate_Click" Height="40" FontSize="11" Canvas.Left="10" Canvas.Top="55" VerticalAlignment="Top" Margin="780,407,44,0">
+        <Button x:Name="initiate_SCU_deaktivate_Kopieren" Click="initiate_SCU_deaktivate_Click" Height="40" FontSize="11" Canvas.Left="10" Canvas.Top="55" VerticalAlignment="Top" Margin="774,373,46,0">
             <TextBlock Text="Initial-Switch | SCU deaktivieren" TextWrapping="Wrap" TextAlignment="Center"/>
         </Button>
-        <Button x:Name="initiate_SCU" Click="initiate_SCU_Click" Height="40" FontSize="11" Canvas.Left="10" Canvas.Top="10" VerticalAlignment="Top" Margin="780,362,44,0">
+        <Button x:Name="initiate_SCU" Click="initiate_SCU_Click" Height="40" FontSize="11" Canvas.Left="10" Canvas.Top="10" VerticalAlignment="Top" Margin="774,328,46,0">
             <TextBlock Text="Initial-Switch | SCU bleibt aktiv" TextWrapping="Wrap" TextAlignment="Center"/>
         </Button>
 
@@ -78,6 +78,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="100,490,0,0" TextWrapping="Wrap" Text="bis" VerticalAlignment="Top"/>
         <DatePicker x:Name="fiscal_export_to" Margin="120,486,775,0" VerticalAlignment="Top" Text="Export bis"/>
         <Button x:Name="Fiscal_Export_DSFinVK" Content="DSFinV-K Export" Margin="94,526,730,0" VerticalAlignment="Top" Height="40" Click="Fiscal_Export_DSFinVK_Click"/>
+        <Button x:Name="repair_fcc" Content="FCC reparieren" Margin="774,485,46,0" VerticalAlignment="Top" Height="40" Click="Fiscal_Export_DSFinVK_Click"/>
 
 
 

@@ -46,8 +46,8 @@ namespace Nt.Utility.Pages.Novatouch
                     db_port.Text,
                     db_namespace.Text,
                     db_FA.Text,
-                    null, // Hier kannst du weitere Parameter entsprechend hinzufügen
-                    null,
+                    "RK99", // Hier kannst du weitere Parameter entsprechend hinzufügen
+                    "987",
                     null,
                     null
                 );

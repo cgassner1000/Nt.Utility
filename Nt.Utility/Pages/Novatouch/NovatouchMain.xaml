@@ -17,13 +17,23 @@
     </Page.Resources>
 
     <Grid Background="White">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Canvas x:Name="TableCanvas" Background="White" Margin="0,0,400,80" Loaded="TableCanvas_Loaded"/>
+        </ScrollViewer>
+
+
         <TextBlock HorizontalAlignment="Left" Margin="682,10,0,0" TextWrapping="Wrap" Text="FA" VerticalAlignment="Top" Width="78" TextAlignment="Right"/>
-        <TextBox x:Name="FA" Margin="780,10,184,0" TextWrapping="Wrap" Text="1001" VerticalAlignment="Top" GotFocus="TextBox_GotFocus"/>
-        <TextBlock HorizontalAlignment="Left" Margin="682,31,0,0" TextWrapping="Wrap" Text="Kellner" VerticalAlignment="Top" Width="78" TextAlignment="Right"/>
-            <TextBox x:Name="KEY" Margin="780,33,184,0" TextWrapping="Wrap" Text="987" VerticalAlignment="Top" GotFocus="TextBox_GotFocus"/>
+        <TextBox x:Name="FA" Margin="780,10,184,0" TextWrapping="Wrap" Text="1001" VerticalAlignment="Top" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+        <TextBlock HorizontalAlignment="Left" Margin="682,34,0,0" TextWrapping="Wrap" Text="Kassa" VerticalAlignment="Top" Width="78" TextAlignment="Right"/>
+        <TextBox x:Name="RK" Margin="780,33,184,0" TextWrapping="Wrap" Text="RK99" VerticalAlignment="Top" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+        <TextBlock HorizontalAlignment="Left" Margin="682,57,0,0" TextWrapping="Wrap" Text="Kellner" VerticalAlignment="Top" Width="78" TextAlignment="Right"/>
+        <TextBox x:Name="KEY" Margin="780,56,184,0" TextWrapping="Wrap" Text="987" VerticalAlignment="Top" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
         <Button x:Name="Kill_Table_Button" Content="Tisch löschen" Margin="780,141,44,0" VerticalAlignment="Top" Height="40" Click="Kill_Table_Button_Click"/>
-                <TextBox x:Name="TI" Margin="640,152,264,0" TextWrapping="Wrap" Text="TISCH" VerticalAlignment="Top" GotFocus="TextBox_GotFocus"/>
-        
+        <TextBox x:Name="TI" Margin="640,152,264,0" TextWrapping="Wrap" Text="TISCH" VerticalAlignment="Top" GotFocus="TextBox_GotFocus"/>
+        <Button x:Name="Test_Print" Content="Testseite drucken" Margin="780,401,44,0" VerticalAlignment="Top" Height="40" Click="Test_Print_Button_Click"/>
+        <ComboBox x:Name="Printer_List" HorizontalAlignment="Left" Margin="640,410,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="Printer_List_SelectionChanged"/>
+        <Button x:Name="Save_Values_Button" Content="Speichern" HorizontalAlignment="Left" Margin="780,79,0,0" VerticalAlignment="Top" Height="32" Width="71" Click="Save_Values_Button_Click"/>
+
 
     </Grid>
 </Page>
