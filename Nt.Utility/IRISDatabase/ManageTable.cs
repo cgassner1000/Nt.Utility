@@ -72,6 +72,7 @@ namespace Nt.Utility.IRISDatabase
                             {
                                 TISCH = reader["TISCH"].ToString(),
                                 VKO = reader["VKO"].ToString(),
+                                offen = reader["offen"].ToString(),
                                 KEY = "K" + reader["PNR"].ToString(),
                                 Status = reader["Status"].ToString()
                                 // Füge hier die anderen Eigenschaften hinzu
@@ -105,7 +106,9 @@ namespace Nt.Utility.IRISDatabase
             public string TISCH { get; set; }
             public string VKO { get; set; }
             public string KEY { get; set; }
+            public string offen {  get; set; }
             public string Status { get; set; }
+            
             // Füge hier weitere Eigenschaften hinzu
 
             public override string ToString()
@@ -118,128 +121,175 @@ namespace Nt.Utility.IRISDatabase
 
         public void DrawTables(Canvas tableCanvas, List<TableData> tables)
         {
+            //var data = IRISDBData.Instance;
+
+            //tableCanvas.Children.Clear();
+
+            //double x = 10; // Anfangs-X-Position für das erste Rechteck
+            //double y = 10; // Anfangs-Y-Position für das erste Rechteck
+            //double width = 100; // Breite der Rechtecke
+            //double height = 45; // Höhe der Rechtecke
+            //double margin = 3; // Abstand zwischen den Rechtecken
+
+            //double canvasWidth = tableCanvas.ActualWidth;
+
+            //foreach (var table in tables)
+
             var data = IRISDBData.Instance;
 
             tableCanvas.Children.Clear();
+
+            // Gruppiere die Tische nach VKO
+            var groupedTables = tables.GroupBy(t => t.VKO).OrderBy(g => g.Key);
 
             double x = 10; // Anfangs-X-Position für das erste Rechteck
             double y = 10; // Anfangs-Y-Position für das erste Rechteck
             double width = 100; // Breite der Rechtecke
             double height = 45; // Höhe der Rechtecke
             double margin = 3; // Abstand zwischen den Rechtecken
+            double headerHeight = 20; // Höhe der Überschrift
+            double headerMargin = 4; // Abstand zwischen Überschrift und Tischen
+            double groupMargin = 20; // Abstand zwischen den Tischgruppen
 
             double canvasWidth = tableCanvas.ActualWidth;
 
-            foreach (var table in tables)
+            foreach (var group in groupedTables)
             {
-                // Bestimme die Hintergrundfarbe basierend auf dem Status
-                Brush backgroundColor = table.Status switch
+                string vkobez = iris.ClassMethodString("cmWW.VKO", "GetVKOBez", data.FA, group.Key);
+                // Überschrift für den Verkaufsort erstellen
+                var headerTextBlock = new TextBlock
                 {
-                    "1" => new SolidColorBrush(Colors.DarkSeaGreen),
-                    "2" => new SolidColorBrush(Colors.Gold),
-                    "3" => new SolidColorBrush(Colors.Tomato),
-                    _ => new SolidColorBrush(Colors.LightGray) // Default-Farbe
+                    Text = $"{vkobez}:",
+                    FontSize = 16,
+                    FontWeight = FontWeights.Bold,
+                    Margin = new Thickness(0, 0, 0, 10)
                 };
 
-                // StackPanel für Rechteck und Textblöcke erstellen
-                var stackPanel = new StackPanel
+                // Fügen Sie die Überschrift zum Canvas hinzu
+                tableCanvas.Children.Add(headerTextBlock);
+                Canvas.SetLeft(headerTextBlock, x);
+                Canvas.SetTop(headerTextBlock, y);
+
+                // Aktualisieren der Y-Position für die Tische unter der Überschrift
+                y += headerHeight + headerMargin;
+
+                foreach (var table in group)
                 {
-                    Orientation = Orientation.Vertical,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Width = width,
-                    Height = height,
-                    Background = backgroundColor // Hintergrundfarbe des StackPanels setzen
-                };
+                    string ti = iris.ClassMethodString("cmNT.Tisch", "GetTischDisplayFormat", data.FA, table.TISCH, 0);
+                    // Bestimme die Hintergrundfarbe basierend auf dem Status
+                    Brush backgroundColor = table.Status switch
+                    {
+                        "1" => new SolidColorBrush(Colors.DarkSeaGreen),
+                        "2" => new SolidColorBrush(Colors.Gold),
+                        "3" => new SolidColorBrush(Colors.Tomato),
+                        _ => new SolidColorBrush(Colors.LightGray) // Default-Farbe
+                    };
 
-                // Rechteck erstellen und Hintergrundfarbe setzen
-                var rect = new Rectangle
-                {
-                    Width = width,
-                    Height = height,
-                    Fill = backgroundColor,
-                    Stroke = new SolidColorBrush(Colors.Black),
-                    StrokeThickness = 1
-                };
+                    // StackPanel für Rechteck und Textblöcke erstellen
+                    var stackPanel = new StackPanel
+                    {
+                        Orientation = Orientation.Vertical,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Width = width,
+                        Height = height,
+                        Background = backgroundColor // Hintergrundfarbe des StackPanels setzen
+                    };
 
-                // Textblock für Tischnummer erstellen
-                var textBlock1 = new TextBlock
-                {
-                    Text = $"{table.TISCH}",
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Margin = new Thickness(0, 5, 0, 0),
-                    Foreground = new SolidColorBrush(Colors.Black) // Textfarbe setzen
-                };
+                    // Rechteck erstellen und Hintergrundfarbe setzen
+                    var rect = new Rectangle
+                    {
+                        Width = width,
+                        Height = height,
+                        Fill = backgroundColor,
+                        Stroke = new SolidColorBrush(Colors.Black),
+                        StrokeThickness = 1
+                    };
 
-                // Textblock für Kellnernummer erstellen
-                var textBlock2 = new TextBlock
-                {
-                    Text = table.KEY,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Foreground = new SolidColorBrush(Colors.Black) // Textfarbe setzen
-                };
+                    // Textblock für Tischnummer erstellen
+                    var textBlock1 = new TextBlock
+                    {
+                        // OLD: Text = $"{table.TISCH}",
+                        Text = $"T{table.TISCH} | {table.KEY}",
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Margin = new Thickness(0, 5, 0, 0),
+                        Foreground = new SolidColorBrush(Colors.Black) // Textfarbe setzen
+                    };
 
-                // Container für die TextBlöcke erstellen, um sie vertikal zentriert zu halten
-                var innerStackPanel = new StackPanel
-                {
-                    Orientation = Orientation.Vertical,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center
-                };
-                innerStackPanel.Children.Add(textBlock1);
-                innerStackPanel.Children.Add(textBlock2);
+                    // Textblock für Kellnernummer erstellen
+                    var textBlock2 = new TextBlock
+                    {
+                        Text = table.offen,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Foreground = new SolidColorBrush(Colors.Black) // Textfarbe setzen
+                    };
 
-                // Inneres StackPanel zum äußeren StackPanel hinzufügen
-                stackPanel.Children.Add(innerStackPanel);
+                    // Container für die TextBlöcke erstellen, um sie vertikal zentriert zu halten
+                    var innerStackPanel = new StackPanel
+                    {
+                        Orientation = Orientation.Vertical,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
+                    innerStackPanel.Children.Add(textBlock1);
+                    innerStackPanel.Children.Add(textBlock2);
 
-                // Schatteneffekt hinzufügen
-                var dropShadowEffect = new DropShadowEffect
-                {
-                    Color = Colors.Black,
-                    Direction = 320,
-                    ShadowDepth = 5,
-                    Opacity = 0.5,
-                    BlurRadius = 10
-                };
-                stackPanel.Effect = dropShadowEffect;
+                    // Inneres StackPanel zum äußeren StackPanel hinzufügen
+                    stackPanel.Children.Add(innerStackPanel);
+
+                    // Schatteneffekt hinzufügen
+                    var dropShadowEffect = new DropShadowEffect
+                    {
+                        Color = Colors.Black,
+                        Direction = 320,
+                        ShadowDepth = 5,
+                        Opacity = 0.5,
+                        BlurRadius = 10
+                    };
+                    stackPanel.Effect = dropShadowEffect;
 
 
 
-                // Kontextmenü erstellen
-                var contextMenu = new ContextMenu();
+                    // Kontextmenü erstellen
+                    var contextMenu = new ContextMenu();
 
-                // Menüeintrag "Umbelegen" erstellen
-                var umbelegenMenuItem = new MenuItem { Header = "Umbelegen" };
-                umbelegenMenuItem.Click += (s, e) => TableMerge(table.TISCH,"",data.FA,data.KASSA,data.KEY, table.VKO);
-                Debug.WriteLine($"FA {data.FA} | KASSA: {data.KASSA} | KEY: {data.KEY}");
+                    // Menüeintrag "Umbelegen" erstellen
+                    var umbelegenMenuItem = new MenuItem { Header = "Umbelegen" };
+                    umbelegenMenuItem.Click += (s, e) => TableMerge(table.TISCH, "", data.FA, data.KASSA, data.KEY, table.VKO);
+                    Debug.WriteLine($"FA {data.FA} | KASSA: {data.KASSA} | KEY: {data.KEY} | T{table.TISCH}");
 
-                // Menüeintrag "Tisch löschen" erstellen
-                var tischLoeschenMenuItem = new MenuItem { Header = "Tisch löschen" };
-                tischLoeschenMenuItem.Click += (s, e) => Kill(data.FA, table.TISCH);
+                    // Menüeintrag "Tisch löschen" erstellen
+                    var tischLoeschenMenuItem = new MenuItem { Header = "Tisch löschen" };
+                    tischLoeschenMenuItem.Click += (s, e) => Kill(data.FA, table.TISCH);
 
-                // Menüeinträge zum Kontextmenü hinzufügen
-                contextMenu.Items.Add(umbelegenMenuItem);
-                contextMenu.Items.Add(tischLoeschenMenuItem);
+                    // Menüeinträge zum Kontextmenü hinzufügen
+                    contextMenu.Items.Add(umbelegenMenuItem);
+                    contextMenu.Items.Add(tischLoeschenMenuItem);
 
-                // Kontextmenü dem StackPanel hinzufügen
-                stackPanel.ContextMenu = contextMenu;
+                    // Kontextmenü dem StackPanel hinzufügen
+                    stackPanel.ContextMenu = contextMenu;
 
-                // StackPanel zu Canvas hinzufügen
-                tableCanvas.Children.Add(stackPanel);
+                    // StackPanel zu Canvas hinzufügen
+                    tableCanvas.Children.Add(stackPanel);
 
-                // Position für das StackPanel aktualisieren
-                Canvas.SetLeft(stackPanel, x);
-                Canvas.SetTop(stackPanel, y);
+                    // Position für das StackPanel aktualisieren
+                    Canvas.SetLeft(stackPanel, x);
+                    Canvas.SetTop(stackPanel, y);
 
-                // Berechnen der nächsten Position
-                x += width + margin;
-                if (x + width > canvasWidth) // Zeilenumbruch
-                {
-                    x = 10;
-                    y += height + margin;
+                    // Berechnen der nächsten Position
+                    x += width + margin;
+                    if (x + width > canvasWidth) // Zeilenumbruch
+                    {
+                        x = 10;
+                        y += height + margin;
+                    }
                 }
+
+                // Zeilenumbruch für den nächsten Verkaufsort
+                x = 10;
+                y += height + groupMargin;
             }
         }
 

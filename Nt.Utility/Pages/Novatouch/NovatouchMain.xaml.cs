@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Nt.Utility.Tools;
 
 
 namespace Nt.Utility.Pages.Novatouch
@@ -28,6 +30,8 @@ namespace Nt.Utility.Pages.Novatouch
         private Dictionary<string, string> printerDictionary;
         private ManageTable _manageTable;
         private DispatcherTimer dispatcherTimer;
+        private Nt.Utility.Tools.Ping _ping;
+        private Nt.Utility.Tools.Log _log;
         public NovatouchMain()
         {
             InitializeComponent();
@@ -38,6 +42,7 @@ namespace Nt.Utility.Pages.Novatouch
             LoadTables();
             LoadTextBoxData();
             InitializeTimer();
+            _ping = new Nt.Utility.Tools.Ping();
 
         }
 
@@ -189,6 +194,100 @@ namespace Nt.Utility.Pages.Novatouch
             IRISDBData.Instance.FA = FA.Text;
             IRISDBData.Instance.KASSA = RK.Text;
             IRISDBData.Instance.KEY = KEY.Text;
+        }
+
+        private async void Tools_Ping_Button_Click(object sender, RoutedEventArgs e)
+        {
+            string server = string.IsNullOrWhiteSpace(Tools_Ping_IP.Text) ? "localhost" : Tools_Ping_IP.Text;
+            string port = Tools_Ping_Port.Text;
+
+            if ((string)Tools_Ping_Button.Content == "Ping")
+            {
+                Tools_Ping_Button.Content = "STOP";
+                // Beispiel für einen ICMP-Ping
+                CreateOpenLogButton();
+                await _ping.StartPingingAsync(server, port); // ICMP-Ping
+
+
+                // Oder für einen TCP-Ping
+                // await _ping.StartPingingAsync("localhost", "80"); // TCP-Ping auf Port 80            
+
+            }
+            else
+            {
+                _ping.StopPinging();
+                Tools_Ping_Button.Content = "Ping";
+            }
+        }
+
+        private void Tools_Ping_IP_dynamic_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            var formattedText = new FormattedText(
+                textBox.Text,
+                System.Globalization.CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight,
+                new Typeface(textBox.FontFamily, textBox.FontStyle, textBox.FontWeight, textBox.FontStretch),
+                textBox.FontSize,
+                Brushes.Black,
+                new NumberSubstitution(),
+                1);
+
+            textBox.Width = formattedText.WidthIncludingTrailingWhitespace + 20; // 20 fügt etwas Puffer hinzu
+        }
+        private void CreateOpenLogButton()
+        {
+            Button openLogButton = new Button
+            {
+                Content = "LOG öffnen",
+                Width = 80,
+                Height = 30,
+                Margin = new Thickness(5),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+
+            openLogButton.Click += (sender, e) => OpenLogFile();
+
+            // Fügen Sie den Button dem Layout hinzu
+            // Hier gehe ich davon aus, dass der Button in einem StackPanel platziert wird
+            // Ändern Sie dies, um es an die richtige Stelle in Ihrer UI einzufügen
+            ToolsPanel.Children.Add(openLogButton); // ToolsPanel ist das Panel, in das der Button eingefügt wird
+        }
+        private void OpenLogFile()
+        {
+            string logFilePath = System.IO.Path.Combine("C:\\Temp", "Nt.Utility.Ping-LOG.txt");
+            string programPath = "C:\\Program Files\\Notepad++\\Notepad++.exe";
+
+
+            if (System.IO.File.Exists(logFilePath))
+            {
+                try
+                {
+                    // Startet das Programm und öffnet die Log-Datei
+                    Process.Start(programPath, logFilePath);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Öffnen der Datei: {ex.Message}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Die Log-Datei existiert nicht.");
+            }
+        }
+
+        private void LOG_Scan_Button_Click(object sender, RoutedEventArgs e)
+        {
+            // Initialisieren der LOG-Klasse
+            Log logUtility = new Log();
+
+            // Definierte Ordner durchsuchen
+            var logFiles = logUtility.FindLogFiles(new List<string> { @"C:\WINDOWS\System32\config\systemprofile\AppData\Roaming\Novacom\Nt.Fiscal.TT999\logs", @"C:\Path\To\Folder2" });
+
+            // Neues Fenster öffnen und die Log-Dateien anzeigen
+            logUtility.ShowLogSelectionPage(logFiles, ((MainWindow)Application.Current.MainWindow).MainFrame);
         }
     }
 }

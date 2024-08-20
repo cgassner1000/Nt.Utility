@@ -21,18 +21,32 @@
             <Canvas x:Name="TableCanvas" Background="White" Margin="0,0,400,80" Loaded="TableCanvas_Loaded"/>
         </ScrollViewer>
 
-
+        <!-- SETTINGS -->
         <TextBlock HorizontalAlignment="Left" Margin="682,10,0,0" TextWrapping="Wrap" Text="FA" VerticalAlignment="Top" Width="78" TextAlignment="Right"/>
         <TextBox x:Name="FA" Margin="780,10,184,0" TextWrapping="Wrap" Text="1001" VerticalAlignment="Top" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
         <TextBlock HorizontalAlignment="Left" Margin="682,34,0,0" TextWrapping="Wrap" Text="Kassa" VerticalAlignment="Top" Width="78" TextAlignment="Right"/>
         <TextBox x:Name="RK" Margin="780,33,184,0" TextWrapping="Wrap" Text="RK99" VerticalAlignment="Top" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
         <TextBlock HorizontalAlignment="Left" Margin="682,57,0,0" TextWrapping="Wrap" Text="Kellner" VerticalAlignment="Top" Width="78" TextAlignment="Right"/>
         <TextBox x:Name="KEY" Margin="780,56,184,0" TextWrapping="Wrap" Text="987" VerticalAlignment="Top" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-        <Button x:Name="Kill_Table_Button" Content="Tisch löschen" Margin="780,141,44,0" VerticalAlignment="Top" Height="40" Click="Kill_Table_Button_Click"/>
-        <TextBox x:Name="TI" Margin="640,152,264,0" TextWrapping="Wrap" Text="TISCH" VerticalAlignment="Top" GotFocus="TextBox_GotFocus"/>
-        <Button x:Name="Test_Print" Content="Testseite drucken" Margin="780,401,44,0" VerticalAlignment="Top" Height="40" Click="Test_Print_Button_Click"/>
-        <ComboBox x:Name="Printer_List" HorizontalAlignment="Left" Margin="640,410,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="Printer_List_SelectionChanged"/>
         <Button x:Name="Save_Values_Button" Content="Speichern" HorizontalAlignment="Left" Margin="780,79,0,0" VerticalAlignment="Top" Height="32" Width="71" Click="Save_Values_Button_Click"/>
+
+        <TextBox x:Name="TI" Margin="640,152,264,0" TextWrapping="Wrap" Text="TISCH" VerticalAlignment="Top" GotFocus="TextBox_GotFocus"/>
+        <Button x:Name="Kill_Table_Button" Content="Tisch löschen" Margin="780,141,44,0" VerticalAlignment="Top" Height="40" Click="Kill_Table_Button_Click"/>
+
+        <Button x:Name="LOG_Scan" Content="auf LOG's überprüfen" Margin="780,203,44,0" VerticalAlignment="Top" Height="40" Click="LOG_Scan_Button_Click" IsEnabled="False"/>
+
+        <ComboBox x:Name="Printer_List" HorizontalAlignment="Left" Margin="640,410,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="Printer_List_SelectionChanged"/>
+        <Button x:Name="Test_Print" Content="Testseite drucken" Margin="780,401,44,0" VerticalAlignment="Top" Height="40" Click="Test_Print_Button_Click"/>
+        
+        <!-- PING -->
+        <TextBox x:Name="Tools_Ping_IP" Margin="640,446,264,0" TextWrapping="Wrap" Text="127.0.0.1" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="100" MaxWidth="500" GotFocus="TextBox_GotFocus" TextChanged="Tools_Ping_IP_dynamic_TextChanged"/>
+        <TextBox x:Name="Tools_Ping_Port" Margin="640,468,324,0" TextWrapping="Wrap" Text="PORT" VerticalAlignment="Top" GotFocus="TextBox_GotFocus"/>
+        <StackPanel x:Name="ToolsPanel" Orientation="Horizontal"  Margin="780,446,44,114">
+            <Button x:Name="Tools_Ping_Button" Content="Ping" Height="40" Click="Tools_Ping_Button_Click" VerticalAlignment="Top" Width="100"/>
+            <!-- Der "Open Log File"-Button wird hier dynamisch hinzugefügt -->
+        </StackPanel>
+
+
 
 
     </Grid>

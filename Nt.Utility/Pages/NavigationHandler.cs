@@ -85,6 +85,19 @@ namespace Nt.Utility.Pages
                     backButton.Click += Back_Button_Click;
                     _footerContentControl.Children.Add(backButton);
                 }
+                else if (page is LogSelection) // Novatouch Logfiles
+                {
+                    Button backButton = new Button
+                    {
+                        Content = "Zurück",
+                        Width = 150,
+                        Height = 40,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        Margin = new Thickness(5)
+                    };
+                    backButton.Click += Back_Button_Click;
+                    _footerContentControl.Children.Add(backButton);
+                }
                 else if (page is FiskaltrustConnection) // FiskaltrustConnection
                 {
                     Button backButton = new Button

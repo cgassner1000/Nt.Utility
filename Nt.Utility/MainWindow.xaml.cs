@@ -70,7 +70,7 @@ namespace Nt.Utility
                     }
                 }
 
-                HostInfoTextBlock.Text = $"Host: {hostName} | IP: {ipAddress}";
+                HostInfoTextBlock.Text = $"💻 {hostName} | IP: {ipAddress}";
             }
             catch (Exception ex)
             {
